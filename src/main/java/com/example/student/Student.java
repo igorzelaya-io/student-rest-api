@@ -1,18 +1,28 @@
 package com.example.student;
 
+import java.util.List;
 import java.util.UUID;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
+import javax.persistence.JoinTable;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
+import javax.persistence.Table;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import com.example.subject.Subject;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 @Entity
 @JsonSerialize
+@Table(name = "students")
 public class Student {
 
 	@Id
@@ -22,7 +32,7 @@ public class Student {
 	
 	@JsonProperty
 	@Column(name = "student_name", nullable = false)
-	@NotNull
+	@NotBlank
 	@Size(min = 2, max = 32)
 	private String studentName;
 	
@@ -30,6 +40,16 @@ public class Student {
 	@Column(name = "student_age", nullable = false)
 	@NotNull
 	private Integer studentAge;
+	
+	
+	@ManyToMany(fetch = FetchType.LAZY,
+				cascade = CascadeType.ALL)
+	@JoinTable(
+		name = "students_subjects",
+		joinColumns = @JoinColumn(name = "student_id"),
+		inverseJoinColumns = @JoinColumn(name = "subject_id")
+	)
+	private List<Subject> studentSubjects;
 	
 	public Student() {
 		super();
@@ -49,8 +69,8 @@ public class Student {
 		if(o.getClass() != this.getClass()) return false;
 		Student student = (Student) o;
 		return this.studentId == student.studentId
-				&& (this.studentName == student.studentName)
-				&& (this.studentAge == student.studentAge);
+				&& (this.studentName.equals(student.studentName))
+				&& (this.studentAge.equals(student.studentAge));
 	}
 	
 	@Override 

@@ -33,11 +33,6 @@ public class StudentService {
 								.orElseThrow(() -> new RuntimeException("Student not found."));
 	}
 	
-	Student findByStudentCode(String studentCode) {
-		return studentRepository.findByStudentCode(studentCode)
-								.orElseThrow(() -> new RuntimeException("Student not found by code.")); 
-	}
-	
 	List<Student> findAllStudents(){
 		return studentRepository.findAll();
 	}
