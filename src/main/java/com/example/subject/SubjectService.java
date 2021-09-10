@@ -24,12 +24,12 @@ public class SubjectService {
 
     Subject findSubjectById(String subjectId){
         return this.subjectRepository.findById(subjectId)
-            .orElseThrow(() -> new ResourceNotFoundException(""));
+            .orElseThrow(() -> new ResourceNotFoundException(Subject.class, "id", subjectId));
     }
 
     Subject findSubjectByName(String subjectName){
         return this.subjectRepository.findSubjectBySubjectName(subjectName)
-                .orElseThrow(() -> new ResourceNotFoundException(""));
+                .orElseThrow(() -> new ResourceNotFoundException(Subject.class, "name", subjectName));
     }
 
 }
