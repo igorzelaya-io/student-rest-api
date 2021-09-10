@@ -71,10 +71,5 @@ public class Teacher {
 	public List<Subject> getTeacherSubjects() {
 		return teacherSubjects;
 	}
-
-	public Teacher addSubjectToTeacher(Subject subject) {
-		this.teacherSubjects.add(subject);
-		return this;
-	}
 	
 }

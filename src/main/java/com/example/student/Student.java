@@ -20,9 +20,12 @@ import com.example.subject.Subject;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
+import lombok.Builder;
+
 @Entity
 @JsonSerialize
 @Table(name = "students")
+@Builder
 public class Student {
 
 	@Id
@@ -102,11 +105,6 @@ public class Student {
 	public void setStudentName(String studentName) {
 		this.studentName = studentName;
 	}
-	
-	public Student studentName(String studentName) {
-		this.setStudentName(studentName);
-		return this;
-	}
 
 	public Integer getStudentAge() {
 		return studentAge;
@@ -114,10 +112,5 @@ public class Student {
 
 	public void setStudentAge(Integer studentAge) {
 		this.studentAge = studentAge;
-	}
-	
-	public Student studentAge(Integer studentAge) {
-		this.setStudentAge(studentAge);
-		return this;
 	}
 }
