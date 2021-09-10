@@ -1,12 +1,16 @@
 package com.example.teacher;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import com.example.exception.ResourceNotFoundException;
 
 @Service
 public class TeacherService {
 
-	private TeacherRepository teacherRepository;
+	private final TeacherRepository teacherRepository;
 	
 	@Autowired
 	public TeacherService(TeacherRepository teacherRepository) {
@@ -15,6 +19,24 @@ public class TeacherService {
 	
 	void saveTeacher(Teacher teacher) {
 		this.teacherRepository.save(teacher);
+	}
+	
+	boolean teacherExists(String teacherId) {
+		return this.teacherRepository.existsById(teacherId);
+	}
+	
+	Teacher findTeacherById(String teacherId) {
+		return this.teacherRepository.findById(teacherId)
+									 .orElseThrow(() -> new ResourceNotFoundException(""));
+	}
+	
+	Teacher findTeacherByName(String teacherName) {
+		return this.teacherRepository.findByTeacherName(teacherName)
+									 .orElseThrow(() -> new ResourceNotFoundException(""));
+	}
+	
+	List<Teacher> findAllTeachers(){
+		return this.teacherRepository.findAll();
 	}
 	
 }
