@@ -5,6 +5,8 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.example.exception.StudentNotFoundException;
+
 @Service
 public class StudentService {
 
@@ -25,12 +27,12 @@ public class StudentService {
 	
 	Student findStudentById(String studentId) {
 		return studentRepository.findById(studentId)
-								.orElseThrow(() -> new RuntimeException("Student not found."));
+								.orElseThrow(() -> new StudentNotFoundException("Student not found."));
 	}
 	
 	Student findStudentByName(String studentName) {
 		return studentRepository.findByStudentName(studentName)
-								.orElseThrow(() -> new RuntimeException("Student not found."));
+								.orElseThrow(() -> new StudentNotFoundException("Student not found."));
 	}
 	
 	List<Student> findAllStudents(){
