@@ -27,12 +27,19 @@ public class TeacherService {
 	
 	Teacher findTeacherById(String teacherId) {
 		return this.teacherRepository.findById(teacherId)
-									 .orElseThrow(() -> new ResourceNotFoundException(Teacher.class, "id", teacherId));
+									 .orElseThrow(() ->
+											 TeacherNotFoundException.buildTeacherNotFoundExceptionForId(teacherId));
 	}
 	
 	Teacher findTeacherByName(String teacherName) {
 		return this.teacherRepository.findByTeacherName(teacherName)
-									 .orElseThrow(() -> new ResourceNotFoundException(Teacher.class, "name", teacherName));
+									 .orElseThrow(() ->
+											TeacherNotFoundException
+													.buildTeacherNotFoundExceptionForField("teacherName", teacherName));
+	}
+
+	void deleteTeacherById(String teacherId){
+		this.teacherRepository.deleteById(teacherId);
 	}
 	
 	List<Teacher> findAllTeachers(){

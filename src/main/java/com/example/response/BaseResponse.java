@@ -26,13 +26,6 @@ public class BaseResponse <T> implements Response<T>{
         super();
     }
 
-    public BaseResponse(Instant time, Integer httpStatusCode, T payload, String message) {
-        this.time = time;
-        this.httpStatusCode = httpStatusCode;
-        this.payload = payload;
-        this.message = message;
-    }
-
     @Override
     public Instant getTime() {
         return this.time;

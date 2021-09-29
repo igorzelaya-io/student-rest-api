@@ -1,7 +1,4 @@
 package com.example.subject;
-
-import com.example.exception.ResourceNotFoundException;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -9,7 +6,6 @@ public class SubjectService {
 
     private final SubjectRepository subjectRepository;
 
-    @Autowired
     public SubjectService(SubjectRepository subjectRepository){
         this.subjectRepository = subjectRepository;
     }
@@ -18,18 +14,22 @@ public class SubjectService {
         this.subjectRepository.save(subject);
     }
 
-    boolean existsSubject(String subjectId){
+    boolean existsSubject(String subjectId) {
         return this.subjectRepository.existsById(subjectId);
     }
 
     Subject findSubjectById(String subjectId){
         return this.subjectRepository.findById(subjectId)
-            .orElseThrow(() -> new ResourceNotFoundException(Subject.class, "id", subjectId));
+            .orElseThrow(() ->
+                    SubjectNotFoundException
+                            .buildSubjectNotFoundExceptionForId(subjectId));
     }
 
     Subject findSubjectByName(String subjectName){
         return this.subjectRepository.findSubjectBySubjectName(subjectName)
-                .orElseThrow(() -> new ResourceNotFoundException(Subject.class, "name", subjectName));
+                .orElseThrow(() ->
+                    SubjectNotFoundException
+                            .buildSubjectNotFoundExceptionForField("subjectName", subjectName));
     }
 
 }
