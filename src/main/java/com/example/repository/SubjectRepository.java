@@ -1,5 +1,6 @@
-package com.example.subject;
+package com.example.repository;
 
+import com.example.model.Subject;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;

@@ -1,4 +1,4 @@
-package com.example.subject;
+package com.example.model;
 
 import java.util.List;
 import java.util.UUID;
@@ -15,24 +15,25 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
-import com.example.student.Student;
-import com.example.teacher.Teacher;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.Getter;
 
 @Entity
 @Table(name = "subjects")
 @JsonSerialize
 @Builder
+@AllArgsConstructor
+@Getter
 public class Subject {
 
 	@Id
 	@Column(name = "subject_id", nullable = false, length = 32)
 	@JsonProperty("subjectId")
 	private String subjectId;
-	
 	
 	@JsonProperty("subjectName")
 	@Column(name = "subject_name", nullable = false, length = 32)
@@ -90,22 +91,6 @@ public class Subject {
 		} else if (!subjectName.equals(other.subjectName))
 			return false;
 		return true;
-	}
-	
-	public String getSubjectId() {
-		return subjectId;
-	}
-
-	public String getSubjectName() {
-		return subjectName;
-	}
-
-	public void setSubjectName(String subjectName) {
-		this.subjectName = subjectName;
-	}
-
-	public List<Student> getSubjectStudents() {
-		return subjectStudents;
 	}
 
 	public Teacher getTeacher() {

@@ -1,6 +1,7 @@
-package com.example.subject;
+package com.example.exception;
 
 import com.example.exception.ResourceNotFoundException;
+import com.example.model.Subject;
 
 /**
  * Subject 404 status exception

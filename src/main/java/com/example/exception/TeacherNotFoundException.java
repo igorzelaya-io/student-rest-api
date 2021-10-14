@@ -1,6 +1,7 @@
-package com.example.teacher;
+package com.example.exception;
 
 import com.example.exception.ResourceNotFoundException;
+import com.example.model.Teacher;
 
 public class TeacherNotFoundException extends ResourceNotFoundException {
 

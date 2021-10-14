@@ -1,7 +1,9 @@
-package com.example.teacher;
+package com.example.controller;
 
+import com.example.model.Teacher;
 import com.example.response.BaseResponse;
 import com.example.response.Response;
+import com.example.service.TeacherService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

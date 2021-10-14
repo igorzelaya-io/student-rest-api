@@ -2,12 +2,14 @@ package com.example.response;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 
 import java.time.Instant;
 
 @JsonSerialize
 @Builder
+@AllArgsConstructor
 public class BaseResponse <T> implements Response<T>{
 
     @JsonProperty("time")

@@ -1,0 +1,15 @@
+spring:
+  profiles: dev
+  jpa:
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL5Dialect
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+    properties.hibernate.dialect: org.hibernate.dialect.MySQL8Dialect
+  datasource:
+    url: jdbc:mysql://localhost:3306/student_db
+    username: root
+    password: Lmvguru12!
+    driver-class-name: com.mysql.cj.jdbc.Driver

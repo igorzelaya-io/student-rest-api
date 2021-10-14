@@ -8,16 +8,6 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
-@EnableWebMvc
-public class StudentAppConfig implements WebMvcConfigurer{
-
-	public StudentAppConfig() {
-		super();
-	}
-	
-	@Override
-	public void configureMessageConverters(List<HttpMessageConverter<?>> converters) {
-		WebMvcConfigurer.super.configureMessageConverters(converters);
-	}
+public class StudentAppConfig{
 	
 }

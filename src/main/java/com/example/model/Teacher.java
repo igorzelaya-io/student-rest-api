@@ -1,7 +1,6 @@
-package com.example.teacher;
+package com.example.model;
 
 import java.util.List;
-import java.util.UUID;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -12,12 +11,18 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-import com.example.subject.Subject;
+import com.example.model.Subject;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
 
 @Entity
 @JsonSerialize
+@Builder
+@AllArgsConstructor
+@Getter
 @Table(name = "teachers")
 public class Teacher {
 
@@ -41,35 +46,12 @@ public class Teacher {
 	@OneToMany(mappedBy = "teacher")
 	private List<Subject> teacherSubjects;
 
-	public Teacher(String teacherName, Integer teacherAge) {
-		super();
-		this.teacherId = UUID.randomUUID().toString();
-		this.teacherName = teacherName;
-		this.teacherAge = teacherAge;
-	}
-
-	public String getTeacherId() {
-		return teacherId;
-	}
-
-	public String getTeacherName() {
-		return teacherName;
-	}
-
 	public void setTeacherName(String teacherName) {
 		this.teacherName = teacherName;
 	}
 
-	public Integer getTeacherAge() {
-		return teacherAge;
-	}
-
 	public void setTeacherAge(Integer teacherAge) {
 		this.teacherAge = teacherAge;		
-	}
-
-	public List<Subject> getTeacherSubjects() {
-		return teacherSubjects;
 	}
 	
 }
