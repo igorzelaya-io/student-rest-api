@@ -20,18 +20,18 @@ public interface StudentService {
     /**
      * Find a student by its ID.
      * @param studentId String
-     * @return Student
+     * @return Student StudentDto
      * @throws StudentNotFoundException when no Student is found by ID
      */
-    Student findStudentById(String studentId) throws StudentNotFoundException;
+    StudentDto findStudentById(String studentId) throws StudentNotFoundException;
 
     /**
      * Find a student by its name.
      * @param studentName String
-     * @return Student
+     * @return Student StudentDto
      * @throws StudentNotFoundException when no Student is found by name
      */
-    Student findStudentByName(String studentName) throws StudentNotFoundException;
+    StudentDto findStudentByName(String studentName) throws StudentNotFoundException;
 
     /**
      * Deletes a student by its Id.

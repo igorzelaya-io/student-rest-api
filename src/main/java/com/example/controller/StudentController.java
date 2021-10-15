@@ -33,9 +33,9 @@ public class StudentController {
 	 * @return ResponseEntity Student
 	 */
 	@GetMapping(value = "/{studentId}")
-	public ResponseEntity<? extends Student> findByStudentId(@PathVariable(value = "studentId")
+	public ResponseEntity<? extends StudentDto> findByStudentId(@PathVariable(value = "studentId")
 																 final String studentId) {
-		Student retrievedStudent = studentService.findStudentById(studentId);
+		StudentDto retrievedStudent = studentService.findStudentById(studentId);
 		return new ResponseEntity<>(retrievedStudent, HttpStatus.OK);
 	}
 
