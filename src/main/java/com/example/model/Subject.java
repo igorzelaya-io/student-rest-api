@@ -1,8 +1,8 @@
 package com.example.model;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
-
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -12,19 +12,14 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Size;
-
-import com.fasterxml.jackson.annotation.JsonProperty;
+import com.example.model.status.ModelStatus;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 
 @Entity
 @Table(name = "subjects")
-@JsonSerialize
 @Builder
 @AllArgsConstructor
 @Getter
@@ -32,34 +27,33 @@ public class Subject {
 
 	@Id
 	@Column(name = "subject_id", nullable = false, length = 32)
-	@JsonProperty("subjectId")
 	private String subjectId;
-	
-	@JsonProperty("subjectName")
+
 	@Column(name = "subject_name", nullable = false, length = 32)
-	@NotBlank
-	@Size(min = 3, max = 12)
 	private String subjectName;
 	
 	@ManyToMany(mappedBy = "studentSubjects",
 				fetch = FetchType.EAGER,
 				cascade = CascadeType.ALL)
 	private List<Student> subjectStudents;
-	
+
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "teacher_id")
-	@JsonProperty
 	private Teacher teacher;
-	
-	public Subject() {
-		super();
-		this.subjectId = UUID.randomUUID().toString();
-	}
-	
-	public Subject(String subjectName) {
-		super();
-		this.subjectName = subjectName;
-		this.subjectId = UUID.randomUUID().toString();    
+
+	@Column(name = "subject_status")
+	private ModelStatus subjectStatus;
+
+
+	/**
+	 * Build complete Subject object with given dto properties
+	 * @param subjectDto Subject
+	 * @return Subject
+	 */
+	public static Subject buildFromDto(Subject subjectDto){
+		subjectDto.setSubjectId(UUID.randomUUID().toString());
+		subjectDto.setSubjectStatus(ModelStatus.ACTIVE);
+		return subjectDto;
 	}
 
 	@Override
@@ -93,11 +87,12 @@ public class Subject {
 		return true;
 	}
 
-	public Teacher getTeacher() {
-		return teacher;
+	protected void setSubjectId(String subjectId){
+		this.subjectId = subjectId;
 	}
 
-	public void setTeacher(Teacher teacher) {
-		this.teacher = teacher;
+	public void setSubjectStatus(ModelStatus modelStatus){
+		this.subjectStatus = modelStatus;
 	}
+
 }

@@ -1,38 +1,44 @@
 package com.example.service;
+
+import com.example.dto.SubjectDto;
 import com.example.exception.SubjectNotFoundException;
 import com.example.model.Subject;
-import com.example.repository.SubjectRepository;
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
 
-@Service
-@RequiredArgsConstructor
-public class SubjectService {
+/**
+ * Interface Service for Subject entity.
+ * @author Igor A. Zelaya (izelaya22@gmail.com)
+ * @version 1.0.0
+ */
+public interface SubjectService {
 
-    private final SubjectRepository subjectRepository;
+    /**
+     * Save Subject entity.
+     * @param subjectDto SubjectDto
+     */
+    void saveSubject(SubjectDto subjectDto);
 
-    void saveSubject(Subject subject){
-        this.subjectRepository.save(subject);
-    }
 
-    boolean existsSubject(String subjectId) {
-        return this.subjectRepository.existsById(subjectId);
-    }
+    /**
+     * Find a Subject by its ID.
+     * @param subjectId
+     * @throws SubjectNotFoundException
+     */
+    Subject findSubjectById(String subjectId) throws SubjectNotFoundException;
 
-    Subject findSubjectById(String subjectId){
-        return this.subjectRepository.findById(subjectId)
-            .orElseThrow(() -> SubjectNotFoundException
-                    .buildSubjectNotFoundExceptionForId(subjectId));
-    }
 
-    Subject findSubjectByName(String subjectName){
-        return this.subjectRepository.findSubjectBySubjectName(subjectName)
-                .orElseThrow(() -> SubjectNotFoundException
-                            .buildSubjectNotFoundExceptionForField("subjectName", subjectName));
-    }
+    /**
+     * Find Subject by name.
+     * @param subjectName
+     * @return
+     * @throws SubjectNotFoundException
+     */
+    Subject findSubjectByName(String subjectName) throws SubjectNotFoundException;
 
-    void deleteSubject(String subjectId){
-        this.subjectRepository.deleteById(subjectId);
-    }
+    /**
+     * Delete Subject, in reality it just modifies Subject Status Code.
+     * @param subjectId
+     */
+    void deleteSubjectById(String subjectId);
+
 
 }

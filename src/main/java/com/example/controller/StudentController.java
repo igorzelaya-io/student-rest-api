@@ -2,24 +2,26 @@ package com.example.controller;
 
 import javax.validation.Valid;
 
+import com.example.dto.StudentDto;
 import com.example.model.Student;
 import com.example.response.BaseResponse;
 import com.example.response.Response;
 import com.example.service.StudentService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import io.swagger.v3.oas.annotations.parameters.RequestBody;
 
 /**
- * Controller for Student entity Crud operations.
+ * Controller for Student entity operations.
  * @author Igor A. Zelaya (izelaya22@gmail.com)
  * @version 1.0.0
  */
 @RestController
-@RequestMapping(path = "/api/v1/students")
+@RequestMapping(path = "/api/v1/students", produces = MediaType.APPLICATION_JSON_VALUE)
 @RequiredArgsConstructor
 public class StudentController {
 
@@ -39,15 +41,15 @@ public class StudentController {
 
 	/**
 	 * Handler method for saving Validated given student.
-	 * @param student Student
+	 * @param studentDto StudentDto
 	 * @return ResponseEntity Response Student
 	 */
 	@PostMapping
-	public ResponseEntity<? extends Response<Student>> saveStudent(@RequestBody(required = true)
-															 		@Valid Student student) {
-		studentService.saveStudent(student);
-		BaseResponse<Student> studentBaseResponse = new BaseResponse<>();
-		return studentBaseResponse.buildResponseEntity(HttpStatus.CREATED, "Student saved successfully", student);
+	public ResponseEntity<? extends Response<StudentDto>> saveStudent(@RequestBody(required = true)
+															 		@Valid StudentDto studentDto) {
+		studentService.saveStudent(studentDto);
+		BaseResponse<StudentDto> studentBaseResponse = new BaseResponse<>();
+		return studentBaseResponse.buildResponseEntity(HttpStatus.CREATED, "Student saved successfully", studentDto);
 	}
 
 	/**
@@ -57,7 +59,7 @@ public class StudentController {
 	 */
 	@DeleteMapping(value = "/{studentId}")
 	public ResponseEntity<? extends Response<Void>> deleteStudent(@PathVariable("studentId")final String studentId) {
-		studentService.deleteStudent(studentId);
+		studentService.deleteStudentById(studentId);
 		BaseResponse<Void> studentResponse = new BaseResponse<>();
 		return studentResponse.buildResponseEntity(HttpStatus.OK, "Student deleted successfully", null);
 	}
