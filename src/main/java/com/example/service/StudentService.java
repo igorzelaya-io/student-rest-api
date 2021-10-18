@@ -2,7 +2,6 @@ package com.example.service;
 
 import com.example.dto.StudentDto;
 import com.example.exception.StudentNotFoundException;
-import com.example.model.Student;
 
 /**
  * Service interface for Student entity crud operations.
@@ -23,7 +22,7 @@ public interface StudentService {
      * @return Student StudentDto
      * @throws StudentNotFoundException when no Student is found by ID
      */
-    StudentDto findStudentById(String studentId) throws StudentNotFoundException;
+    StudentDto findStudentById(final String studentId) throws StudentNotFoundException;
 
     /**
      * Find a student by its name.
@@ -31,13 +30,14 @@ public interface StudentService {
      * @return Student StudentDto
      * @throws StudentNotFoundException when no Student is found by name
      */
-    StudentDto findStudentByName(String studentName) throws StudentNotFoundException;
+    StudentDto findStudentByName(final String studentName) throws StudentNotFoundException;
+
 
     /**
-     * Deletes a student by its Id.
-     * @param studentId String
+     * Delete student by its ID.
+     * @param studentId
      */
-    void deleteStudentById(String studentId);
+    void deleteStudentById(final String studentId);
 
 
 }

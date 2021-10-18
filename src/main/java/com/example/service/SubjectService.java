@@ -2,7 +2,6 @@ package com.example.service;
 
 import com.example.dto.SubjectDto;
 import com.example.exception.SubjectNotFoundException;
-import com.example.model.Subject;
 
 /**
  * Interface Service for Subject entity.
@@ -23,7 +22,7 @@ public interface SubjectService {
      * @param subjectId
      * @throws SubjectNotFoundException
      */
-    Subject findSubjectById(String subjectId) throws SubjectNotFoundException;
+    SubjectDto findSubjectById(final String subjectId) throws SubjectNotFoundException;
 
 
     /**
@@ -32,13 +31,13 @@ public interface SubjectService {
      * @return
      * @throws SubjectNotFoundException
      */
-    Subject findSubjectByName(String subjectName) throws SubjectNotFoundException;
+    SubjectDto findSubjectByName(final String subjectName) throws SubjectNotFoundException;
 
     /**
      * Delete Subject, in reality it just modifies Subject Status Code.
      * @param subjectId
      */
-    void deleteSubjectById(String subjectId);
+    void deleteSubjectById(final String subjectId);
 
 
 }

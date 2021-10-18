@@ -1,9 +1,10 @@
 package com.example.controller;
 
+import com.example.dto.TeacherDto;
 import com.example.model.Teacher;
 import com.example.response.BaseResponse;
 import com.example.response.Response;
-import com.example.service.TeacherService;
+import com.example.service.implementation.TeacherServiceImpl;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -16,24 +17,24 @@ import javax.validation.Valid;
 @RestController(value = "/teachers")
 public class TeacherController {
 
-    private TeacherService teacherService;
+    private TeacherServiceImpl teacherService;
 
-    public TeacherController(TeacherService teacherService){
+    public TeacherController(TeacherServiceImpl teacherService){
         this.teacherService = teacherService;
     }
 
     @GetMapping(value = "/{teacherId}")
-    public ResponseEntity<? extends Response<Teacher>> findTeacherById(@PathVariable("teacherId")String teacherId) {
-        Teacher retrievedTeacher = teacherService.findTeacherById(teacherId);
-        BaseResponse<Teacher> teacherBaseResponse = new BaseResponse<>();
+    public ResponseEntity<? extends Response<TeacherDto>> findTeacherById(@PathVariable("teacherId")String teacherId) {
+        TeacherDto retrievedTeacher = teacherService.findTeacherById(teacherId);
+        BaseResponse<TeacherDto> teacherBaseResponse = new BaseResponse<>();
         return teacherBaseResponse.buildResponseEntity(HttpStatus.OK,
                 "Teacher retrieved successfully", retrievedTeacher);
     }
 
     @PostMapping
-    public ResponseEntity<? extends Response<Teacher>> saveTeacher(@RequestBody @Valid Teacher teacher) {
+    public ResponseEntity<? extends Response<TeacherDto>> saveTeacher(@RequestBody @Valid TeacherDto teacher) {
         this.teacherService.saveTeacher(teacher);
-        BaseResponse<Teacher> teacherBaseResponse = new BaseResponse<>();
+        BaseResponse<TeacherDto> teacherBaseResponse = new BaseResponse<>();
         return teacherBaseResponse.buildResponseEntity(HttpStatus.CREATED,
                 "Teacher created successfully.", teacher);
     }

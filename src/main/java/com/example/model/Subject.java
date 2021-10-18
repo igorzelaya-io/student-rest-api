@@ -1,6 +1,5 @@
 package com.example.model;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 import javax.persistence.CascadeType;
@@ -13,7 +12,6 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import com.example.model.status.ModelStatus;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;

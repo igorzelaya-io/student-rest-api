@@ -3,6 +3,7 @@ package com.example.controller;
 import javax.validation.Valid;
 
 import com.example.dto.StudentDto;
+import com.example.dto.pageable.PageResponseDto;
 import com.example.model.Student;
 import com.example.response.BaseResponse;
 import com.example.response.Response;
@@ -27,6 +28,27 @@ public class StudentController {
 
 	private final StudentService studentService;
 
+//	@GetMapping
+//	public ResponseEntity<? extends PageResponseDto<Student>> getPaginatedAndFilteredStudents
+//			(@RequestParam Integer pageSize,
+//			 @RequestParam Integer pageNumber,
+//			 @RequestParam String sortingOrder){
+//
+//	}
+
+	/**
+	 * Handler method for saving Validated given student.
+	 * @param studentDto StudentDto
+	 * @return ResponseEntity Response Student
+	 */
+	@PostMapping
+	public ResponseEntity<? extends Response<StudentDto>> saveStudent(@RequestBody(required = true)
+																	  @Valid StudentDto studentDto) {
+		studentService.saveStudent(studentDto);
+		BaseResponse<StudentDto> studentBaseResponse = new BaseResponse<>();
+		return studentBaseResponse.buildResponseEntity(HttpStatus.CREATED, "Student saved successfully", studentDto);
+	}
+
 	/**
 	 * Handler method for fetching a single Student by its ID.
 	 * @param studentId String
@@ -40,19 +62,6 @@ public class StudentController {
 	}
 
 	/**
-	 * Handler method for saving Validated given student.
-	 * @param studentDto StudentDto
-	 * @return ResponseEntity Response Student
-	 */
-	@PostMapping
-	public ResponseEntity<? extends Response<StudentDto>> saveStudent(@RequestBody(required = true)
-															 		@Valid StudentDto studentDto) {
-		studentService.saveStudent(studentDto);
-		BaseResponse<StudentDto> studentBaseResponse = new BaseResponse<>();
-		return studentBaseResponse.buildResponseEntity(HttpStatus.CREATED, "Student saved successfully", studentDto);
-	}
-
-	/**
 	 * Handler method for deleting a Student by its ID.
 	 * @param studentId String
 	 * @return Response
@@ -63,5 +72,6 @@ public class StudentController {
 		BaseResponse<Void> studentResponse = new BaseResponse<>();
 		return studentResponse.buildResponseEntity(HttpStatus.OK, "Student deleted successfully", null);
 	}
+
 	
 }

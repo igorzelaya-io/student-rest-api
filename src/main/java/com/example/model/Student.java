@@ -14,7 +14,6 @@ import lombok.*;
  * @version 1.0.0
  */
 @Entity
-@JsonSerialize
 @Table(name = "students")
 @Builder
 @AllArgsConstructor
@@ -78,7 +77,7 @@ public class Student {
 		return hash;
 	}
 
-	private void setStudentId(String studentId){
+	private void setStudentId(final String studentId){
 		this.studentId = studentId;
 	}
 

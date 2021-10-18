@@ -8,8 +8,6 @@ import lombok.Builder;
 import java.time.Instant;
 
 @JsonSerialize
-@Builder
-@AllArgsConstructor
 public class BaseResponse <T> implements Response<T>{
 
     @JsonProperty("time")

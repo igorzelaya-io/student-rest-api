@@ -11,6 +11,7 @@
 /Users/igorzelaya/Courses/student-rest-api/src/main/java/com/example/service/StudentService.java
 /Users/igorzelaya/Courses/student-rest-api/src/main/java/com/example/service/implementation/StudentServiceImpl.java
 /Users/igorzelaya/Courses/student-rest-api/src/main/java/com/example/dto/SubjectDto.java
+/Users/igorzelaya/Courses/student-rest-api/src/main/java/com/example/service/implementation/TeacherServiceImpl.java
 /Users/igorzelaya/Courses/student-rest-api/src/main/java/com/example/model/mapper/TeacherMapper.java
 /Users/igorzelaya/Courses/student-rest-api/src/main/java/com/example/repository/StudentRepository.java
 /Users/igorzelaya/Courses/student-rest-api/src/main/java/com/example/repository/pagingSorting/TeacherPagingAndSortingRepository.java
@@ -22,6 +23,7 @@
 /Users/igorzelaya/Courses/student-rest-api/src/main/java/com/example/dto/pageable/PageResponseDto.java
 /Users/igorzelaya/Courses/student-rest-api/src/main/java/com/example/exception/StudentExceptionHandler.java
 /Users/igorzelaya/Courses/student-rest-api/src/main/java/com/example/config/StudentAppConfig.java
+/Users/igorzelaya/Courses/student-rest-api/src/main/java/com/example/dto/pageable/PageResponse.java
 /Users/igorzelaya/Courses/student-rest-api/src/main/java/com/example/service/TeacherService.java
 /Users/igorzelaya/Courses/student-rest-api/src/main/java/com/example/controller/StudentController.java
 /Users/igorzelaya/Courses/student-rest-api/src/main/java/com/example/controller/TeacherController.java
