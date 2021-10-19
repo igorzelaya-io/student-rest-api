@@ -1,6 +1,10 @@
 package com.example.service.pagingSorting;
 
+import com.example.exception.StudentNotFoundException;
 import com.example.model.Student;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 
 import java.util.List;
 
@@ -10,6 +14,8 @@ import java.util.List;
  * @version 1.0.0
  */
 public interface StudentPagingSortingService {
-    
+
+
+
 
 }

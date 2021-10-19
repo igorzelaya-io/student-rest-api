@@ -24,7 +24,7 @@ import lombok.Getter;
 public class Subject {
 
 	@Id
-	@Column(name = "subject_id", nullable = false, length = 32)
+	@Column(name = "subject_id", nullable = false, length = 64)
 	private String subjectId;
 
 	@Column(name = "subject_name", nullable = false, length = 32)

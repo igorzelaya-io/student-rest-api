@@ -22,7 +22,7 @@ import lombok.*;
 public class Student {
 
 	@Id
-	@Column(name = "student_id", nullable = false, unique = true)
+	@Column(name = "student_id", nullable = false, unique = true, length = 64)
 	private String studentId;
 
 	@Column(name = "student_name", nullable = false)

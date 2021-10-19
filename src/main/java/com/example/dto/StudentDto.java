@@ -4,8 +4,8 @@ import com.example.model.Subject;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import lombok.*;
-
 import javax.validation.constraints.*;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -13,9 +13,11 @@ import java.util.List;
  * @author Igor A. Zelaya (izelaya22@gmail.com)
  * @version 1.0.0
  */
+@JsonSerialize
 @Builder
 @Getter
-@JsonSerialize
+@AllArgsConstructor
+@NoArgsConstructor
 public class StudentDto {
 
     @JsonProperty("studentId")
@@ -40,6 +42,6 @@ public class StudentDto {
     private String studentEmail;
 
     @JsonProperty("studentSubjects")
-    private List<Subject> studentSubjects;
+    private List<Subject> studentSubjects = new ArrayList<>();
 
 }

@@ -27,7 +27,7 @@ import lombok.Setter;
 public class Teacher {
 
 	@Id
-	@Column(name = "teacher_id", nullable = false, length = 32)
+	@Column(name = "teacher_id", nullable = false, length = 64)
 	private String teacherId;
 
 	@Column(name = "teacher_name", nullable = false, length = 32)

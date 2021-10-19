@@ -23,15 +23,14 @@ com/example/dto/StudentDto.class
 com/example/repository/TeacherRepository.class
 com/example/model/mapper/TeacherMapper.class
 com/example/model/status/ModelStatus.class
-com/example/model/BaseAuthEntity$BaseAuthEntityBuilder.class
 com/example/model/Student.class
 com/example/dto/SubjectDto$SubjectDtoBuilder.class
 com/example/dto/pageable/PageResponseDto.class
 com/example/dto/TeacherDto$TeacherDtoBuilder.class
 com/example/response/Response.class
-com/example/config/StudentAppConfig.class
-com/example/model/BaseAuthEntity.class
+com/example/service/pagingSorting/StudentPagingSortingService.class
 com/example/dto/TeacherDto.class
+com/example/config/security/StudentApiSecurityConfig.class
 com/example/service/implementation/TeacherServiceImpl.class
 com/example/service/TeacherService.class
 com/example/service/SubjectService.class
@@ -42,5 +41,6 @@ com/example/dto/SubjectDto.class
 com/example/repository/SubjectRepository.class
 com/example/model/mapper/SubjectMapper.class
 com/example/StudentRestApiApplication.class
+com/example/controller/SubjectController.class
 com/example/exception/TeacherNotFoundException.class
 com/example/model/Student$StudentBuilder.class

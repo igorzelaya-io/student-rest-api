@@ -14,7 +14,6 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import io.swagger.v3.oas.annotations.parameters.RequestBody;
 
 /**
  * Controller for Student entity operations.
@@ -41,9 +40,8 @@ public class StudentController {
 	 * @param studentDto StudentDto
 	 * @return ResponseEntity Response Student
 	 */
-	@PostMapping
-	public ResponseEntity<? extends Response<StudentDto>> saveStudent(@RequestBody(required = true)
-																	  @Valid StudentDto studentDto) {
+	@PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<? extends Response<StudentDto>> saveStudent(@RequestBody @Valid  StudentDto studentDto) {
 		studentService.saveStudent(studentDto);
 		BaseResponse<StudentDto> studentBaseResponse = new BaseResponse<>();
 		return studentBaseResponse.buildResponseEntity(HttpStatus.CREATED, "Student saved successfully", studentDto);
