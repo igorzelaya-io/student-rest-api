@@ -4,11 +4,17 @@ import com.example.dto.TeacherDto;
 import com.example.exception.TeacherNotFoundException;
 import com.example.model.Teacher;
 import com.example.model.mapper.TeacherMapper;
+import com.example.model.status.ModelStatus;
 import com.example.repository.TeacherRepository;
 import com.example.service.TeacherService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+/**
+ * Service implementation class for Teacher entity.
+ * @author Igor A. Zelaya (izelaya22@gmail.com)
+ * @version 1.0.0
+ */
 @Service
 @RequiredArgsConstructor
 public class TeacherServiceImpl implements TeacherService {
@@ -48,9 +54,19 @@ public class TeacherServiceImpl implements TeacherService {
 
 	@Override
 	public void deleteTeacherById(String teacherId) {
-
+		Teacher teacher = teacherMapper
+				.dtoToTeacher(findTeacherById(teacherId));
+		teacher.setTeacherStatus(ModelStatus.INACTIVE);
+		teacherRepository.save(teacher);
 	}
 
+	/**
+	 * Evaluate if Teacher status is ACTIVE.
+	 * @param teacher String
+	 * @param queryField String
+	 * @param queryFieldValue String
+	 * @return Teacher
+	 */
 	private Teacher isActiveTeacher(Teacher teacher, String queryField, String queryFieldValue){
 		if(teacher.getTeacherStatus().getStatusCode() == 0){
 			return teacher;

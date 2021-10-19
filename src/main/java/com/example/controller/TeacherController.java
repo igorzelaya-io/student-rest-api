@@ -5,6 +5,7 @@ import com.example.model.Teacher;
 import com.example.response.BaseResponse;
 import com.example.response.Response;
 import com.example.service.implementation.TeacherServiceImpl;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -14,14 +15,12 @@ import javax.validation.Valid;
  * Controller for Teacher entity.
  * @author Igor A. Zelaya
  */
-@RestController(value = "/teachers")
+@RestController
+@RequestMapping(path = "/api/v1/teachers")
+@RequiredArgsConstructor
 public class TeacherController {
 
-    private TeacherServiceImpl teacherService;
-
-    public TeacherController(TeacherServiceImpl teacherService){
-        this.teacherService = teacherService;
-    }
+    private final TeacherServiceImpl teacherService;
 
     @GetMapping(value = "/{teacherId}")
     public ResponseEntity<? extends Response<TeacherDto>> findTeacherById(@PathVariable("teacherId")String teacherId) {
@@ -53,6 +52,7 @@ public class TeacherController {
     public ResponseEntity<? extends Response<Teacher>> updateTeacher(@PathVariable("teacherId")String teacherId,
                                                                      @RequestBody Teacher teacher){
         BaseResponse<Teacher> teacherBaseResponse = new BaseResponse<>();
+        //TODO Put in Service.
         return teacherBaseResponse.buildResponseEntity(HttpStatus.OK
                 , "Teacher updated successfully", teacher);
     }
