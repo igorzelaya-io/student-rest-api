@@ -34,10 +34,10 @@ public interface StudentService {
 
 
     /**
-     * Delete student by its ID.
-     * @param studentId
+     * Delete student by its name.
+     * @param studentName
      */
-    void deleteStudentById(final String studentId);
+    void deleteStudentByName(final String studentName);
 
 
 }

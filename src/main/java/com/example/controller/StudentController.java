@@ -40,7 +40,7 @@ public class StudentController {
 	 * @param studentDto StudentDto
 	 * @return ResponseEntity Response Student
 	 */
-	@PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
+	@PostMapping
 	public ResponseEntity<? extends Response<StudentDto>> saveStudent(@RequestBody @Valid  StudentDto studentDto) {
 		studentService.saveStudent(studentDto);
 		BaseResponse<StudentDto> studentBaseResponse = new BaseResponse<>();
@@ -53,23 +53,32 @@ public class StudentController {
 	 * @return ResponseEntity Student
 	 */
 	@GetMapping(value = "/{studentId}")
-	public ResponseEntity<? extends StudentDto> findByStudentId(@PathVariable(value = "studentId")
-																 final String studentId) {
+	public ResponseEntity<? extends StudentDto> findByStudentId(@PathVariable final String studentId) {
 		StudentDto retrievedStudent = studentService.findStudentById(studentId);
 		return new ResponseEntity<>(retrievedStudent, HttpStatus.OK);
 	}
 
 	/**
-	 * Handler method for deleting a Student by its ID.
-	 * @param studentId String
-	 * @return Response
+	 * Handler method for fetching a single Student by its name.
+	 * @param studentName String
+	 * @return ResponseEntity Student
 	 */
-	@DeleteMapping(value = "/{studentId}")
-	public ResponseEntity<? extends Response<Void>> deleteStudent(@PathVariable("studentId")final String studentId) {
-		studentService.deleteStudentById(studentId);
+	@GetMapping(value = "/{studentName}")
+	public ResponseEntity<? extends StudentDto> findStudentByName(@PathVariable final String studentName){
+		StudentDto retrievedStudent = studentService.findStudentByName(studentName);
+		return new ResponseEntity<>(retrievedStudent, HttpStatus.OK);
+	}
+
+	/**
+	 * Handler method for deleting a Student by its name.
+	 * @param studentName String
+	 * @return Response null
+	 */
+	@DeleteMapping(value = "/{studentName}")
+	public ResponseEntity<? extends Response<Void>> deleteStudent(@PathVariable final String studentName) {
+		studentService.deleteStudentByName(studentName);
 		BaseResponse<Void> studentResponse = new BaseResponse<>();
 		return studentResponse.buildResponseEntity(HttpStatus.OK, "Student deleted successfully", null);
 	}
-
 	
 }
