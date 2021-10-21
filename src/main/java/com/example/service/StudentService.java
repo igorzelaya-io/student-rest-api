@@ -1,9 +1,7 @@
 package com.example.service;
 
 import com.example.dto.StudentDto;
-import com.example.dto.pageable.PageResponseDto;
 import com.example.exception.StudentNotFoundException;
-import com.example.model.Student;
 import org.springframework.data.domain.Page;
 
 /**
@@ -43,7 +41,7 @@ public interface StudentService {
     void deleteStudentById(final String studentId);
 
     /**
-     * Return a Paginated AND/OR Sorted List of Students.
+     * Return a page of sorted students.
      * @param studentName Student names to sort by.
      * @param page Page number to query by.
      * @param size Page size to query by.

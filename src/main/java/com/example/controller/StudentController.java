@@ -33,11 +33,12 @@ public class StudentController {
 			@RequestParam(required = false)String studentName,
 			@RequestParam(defaultValue = "0")int page,
 			@RequestParam(defaultValue = "5")int size,
-			@RequestParam(defaultValue = "studentId, desc") String[] sort){
+			@RequestParam(defaultValue = "studentId, desc") String[] sort) {
+
 		Page<StudentDto> studentPage = studentService
 				.findPaginatedSortedStudents(studentName, page, size, sort);
-		PageResponseDto<StudentDto> pageResponseDto = new PageResponseDto<>();
 
+		PageResponseDto<StudentDto> pageResponseDto = new PageResponseDto<>();
 		return pageResponseDto.buildResponseEntity(studentPage.getSize(), studentPage.getNumberOfElements(),
 				studentPage.getTotalPages(), studentPage.getNumber(), studentPage.getContent());
 	}
