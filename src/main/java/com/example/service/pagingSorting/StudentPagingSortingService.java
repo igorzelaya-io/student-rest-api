@@ -1,12 +1,8 @@
 package com.example.service.pagingSorting;
 
-import com.example.exception.StudentNotFoundException;
+import com.example.dto.StudentDto;
 import com.example.model.Student;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
-
-import java.util.List;
 
 /**
  * Paging and sorting service for Student entity.
@@ -16,6 +12,14 @@ import java.util.List;
 public interface StudentPagingSortingService {
 
 
-
+    /**
+     * Return a Page of sorted students.
+     * @param studentName String name to query by.
+     * @param page Page number to query by.
+     * @param size Page size to query by.
+     * @param sort Sort params to sort by.
+     * @return Page StudentDto.
+     */
+    Page<StudentDto> findPaginatedSortedStudents(String studentName, int page, int size, String[] sort);
 
 }

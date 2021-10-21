@@ -1,7 +1,10 @@
 package com.example.service;
 
 import com.example.dto.StudentDto;
+import com.example.dto.pageable.PageResponseDto;
 import com.example.exception.StudentNotFoundException;
+import com.example.model.Student;
+import org.springframework.data.domain.Page;
 
 /**
  * Service interface for Student entity crud operations.
@@ -34,10 +37,20 @@ public interface StudentService {
 
 
     /**
-     * Delete student by its name.
-     * @param studentName
+     * Delete student by its ID.
+     * @param studentId
      */
-    void deleteStudentByName(final String studentName);
+    void deleteStudentById(final String studentId);
+
+    /**
+     * Return a Paginated AND/OR Sorted List of Students.
+     * @param studentName Student names to sort by.
+     * @param page Page number to query by.
+     * @param size Page size to query by.
+     * @param sort Extra sort params to sort by.
+     * @return PageResponseDto Student.
+     */
+    Page<StudentDto> findPaginatedSortedStudents(String studentName, int page, int size, String[] sort);
 
 
 }
