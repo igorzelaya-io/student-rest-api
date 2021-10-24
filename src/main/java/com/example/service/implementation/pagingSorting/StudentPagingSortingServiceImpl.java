@@ -36,19 +36,22 @@ public class StudentPagingSortingServiceImpl implements StudentPagingSortingServ
         Pageable pageable = PageRequest.of(page, size, Sort.by(orders));
         Page<StudentDto> studentPage;
         if(studentName == null){
-            studentPage = new PageImpl<>(pagingAndSortingRepository.findAll(pageable)
+            List<StudentDto> studentDtos = pagingAndSortingRepository
+                    .findAll(pageable)
                     .stream()
                     .map(student -> studentMapper.studentToDto(student))
-                    .collect(Collectors.toList()));
+                    .collect(Collectors.toList());
+
+            studentPage = new PageImpl<>(studentDtos);
         }
         else{
-            studentPage = new PageImpl<>(
-                                pagingAndSortingRepository
-                                .findByStudentNameContaining(studentName, pageable)
-                                .stream()
-                                .map(student -> studentMapper.studentToDto(student))
-                                .collect(Collectors.toList())
-                               );
+            List<StudentDto> studentDtos = pagingAndSortingRepository
+                    .findByStudentNameContaining(studentName, pageable)
+                    .stream()
+                    .map(student -> studentMapper.studentToDto(student))
+                    .collect(Collectors.toList());
+
+            studentPage = new PageImpl<>(studentDtos);
         }
         return studentPage;
     }
