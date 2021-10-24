@@ -2,6 +2,7 @@ package com.example.dto.pageable;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.NoArgsConstructor;
 
@@ -15,6 +16,7 @@ import java.util.List;
 @Builder
 @JsonSerialize
 @NoArgsConstructor
+@AllArgsConstructor
 public class PageResponseDto<T> implements PageResponse<T>{
 
     @JsonProperty("pageSize")
@@ -81,4 +83,5 @@ public class PageResponseDto<T> implements PageResponse<T>{
     public void setPagePayload(List<T> pagePayload) {
         this.pagePayload = pagePayload;
     }
+
 }

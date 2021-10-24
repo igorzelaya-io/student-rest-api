@@ -29,7 +29,12 @@ hs_err_pid*
 .mvn/**
 .classpath
 .project
-mvnw
+.springBeans
+/mvnw
 mvnw.cmd
 **/.DS_Store
+/target/**
+
+
+
 

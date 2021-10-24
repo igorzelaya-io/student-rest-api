@@ -2,6 +2,7 @@ package com.example.service;
 
 import com.example.dto.TeacherDto;
 import com.example.exception.TeacherNotFoundException;
+import org.springframework.data.domain.Page;
 
 /**
  * Service interface for Teacher entity crud operations
@@ -39,4 +40,14 @@ public interface TeacherService {
      */
     void deleteTeacherById(final String teacherId);
 
+
+    /**
+     * Returns a page of Teachers given query data.
+     * @param teacherName String
+     * @param page int
+     * @param size int
+     * @param sort Sorting parameters
+     * @return Page TeacherDto
+     */
+    Page<TeacherDto> findPaginatedSortedTeachers(String teacherName, int page, int size, String[] sort);
 }

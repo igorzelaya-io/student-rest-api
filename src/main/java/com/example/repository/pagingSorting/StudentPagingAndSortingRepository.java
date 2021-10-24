@@ -1,6 +1,5 @@
 package com.example.repository.pagingSorting;
 
-import com.example.dto.StudentDto;
 import com.example.model.Student;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -20,7 +19,7 @@ public interface StudentPagingAndSortingRepository
      * Finds Page of all Students in which given name exists.
      * @param studentName String
      * @param pageable Pageable
-     * @return Page StudentDto
+     * @return Page Student
      */
     Page<Student> findByStudentNameContaining(String studentName, Pageable pageable);
 

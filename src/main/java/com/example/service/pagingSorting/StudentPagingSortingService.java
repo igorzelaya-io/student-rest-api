@@ -1,7 +1,6 @@
 package com.example.service.pagingSorting;
 
 import com.example.dto.StudentDto;
-import com.example.model.Student;
 import org.springframework.data.domain.Page;
 
 /**
@@ -20,6 +19,7 @@ public interface StudentPagingSortingService {
      * @param sort Sort params to sort by.
      * @return Page StudentDto.
      */
-    Page<StudentDto> findPaginatedSortedStudents(String studentName, int page, int size, String[] sort);
+    Page<StudentDto> findPaginatedSortedStudents
+    (final String studentName, final int page, final int size, final String[] sort);
 
 }

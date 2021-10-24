@@ -7,7 +7,9 @@ import com.example.model.mapper.TeacherMapper;
 import com.example.model.status.ModelStatus;
 import com.example.repository.TeacherRepository;
 import com.example.service.TeacherService;
+import com.example.service.pagingSorting.TeacherPagingSortingService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
 /**
@@ -22,6 +24,13 @@ public class TeacherServiceImpl implements TeacherService {
 	private final TeacherRepository teacherRepository;
 
 	private final TeacherMapper teacherMapper;
+
+	private final TeacherPagingSortingService teacherPagingSortingService;
+
+	@Override
+	public Page<TeacherDto> findPaginatedSortedTeachers(String teacherName, int page, int size, String[] sort) {
+		return teacherPagingSortingService.findPaginatedSortedTeachers(teacherName, page, size, sort);
+	}
 
 	@Override
 	public void saveTeacher(final TeacherDto teacherDto) {
