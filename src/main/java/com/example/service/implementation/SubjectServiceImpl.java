@@ -7,7 +7,10 @@ import com.example.model.mapper.SubjectMapper;
 import com.example.model.status.ModelStatus;
 import com.example.repository.SubjectRepository;
 import com.example.service.SubjectService;
+import com.example.service.pagingSorting.SubjectPagingSortingService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.Tuple;
@@ -28,6 +31,14 @@ public class SubjectServiceImpl implements SubjectService {
     private final SubjectMapper subjectMapper;
 
     private final SubjectRepository subjectRepository;
+
+    private final SubjectPagingSortingService pagingSortingService;
+
+    @Override
+    public Page<SubjectDto> findBySubjectNameContaining
+            (final String subjectName, final int page, final int size, final String[] sort) {
+        return pagingSortingService.findBySubjectNameContaining(subjectName, page, size, sort);
+    }
 
     @Override
     public void saveSubject(SubjectDto subjectDto){

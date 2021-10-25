@@ -34,22 +34,21 @@ public class TeacherPagingSortingServiceImpl implements TeacherPagingSortingServ
         List<Sort.Order> orders = sortingPagingUtils.getSortOrders(sort);
         Pageable pageable = PageRequest.of(page, size, Sort.by(orders));
         Page<TeacherDto> teacherPage;
-        if(teacherName == null){
-            List<TeacherDto> teacherDtoList = teacherPagingAndSortingRepository
-                    .findAll(pageable)
-                    .stream()
-                    .map(teacher -> teacherMapper.toTeacherDto(teacher))
-                    .collect(Collectors.toList());
-            teacherPage = new PageImpl<>(teacherDtoList);
-        }
-        else{
-            List<TeacherDto> teacherDtos = teacherPagingAndSortingRepository
+        List<TeacherDto> teacherDtoList;
+        if (teacherName != null) {
+            teacherDtoList = teacherPagingAndSortingRepository
                     .findByTeacherNameContaining(teacherName, pageable)
                     .stream()
                     .map(teacher -> teacherMapper.toTeacherDto(teacher))
                     .collect(Collectors.toList());
-            teacherPage = new PageImpl<>(teacherDtos);
+        } else {
+            teacherDtoList = teacherPagingAndSortingRepository
+                    .findAll(pageable)
+                    .stream()
+                    .map(teacher -> teacherMapper.toTeacherDto(teacher))
+                    .collect(Collectors.toList());
         }
+        teacherPage = new PageImpl<>(teacherDtoList);
         return teacherPage;
     }
 

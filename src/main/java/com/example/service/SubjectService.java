@@ -2,6 +2,7 @@ package com.example.service;
 
 import com.example.dto.SubjectDto;
 import com.example.exception.SubjectNotFoundException;
+import org.springframework.data.domain.Page;
 
 /**
  * Interface Service for Subject entity.
@@ -38,6 +39,18 @@ public interface SubjectService {
      * @param subjectId
      */
     void deleteSubjectById(final String subjectId);
+
+    /**
+     * Find sorted and paginated SubjectDto.
+     * @param subjectName String
+     * @param page page number
+     * @param size page size
+     * @param sort Sorting parameters
+     * @return Page SubjectDto
+     */
+    Page<SubjectDto> findBySubjectNameContaining
+    (final String subjectName, final int page, final int size, final String[] sort);
+
 
 
 }
