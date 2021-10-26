@@ -15,7 +15,7 @@ import java.util.stream.Collectors;
 /**
  * Service implementation for Teacher Paging and Sorting service.
  * @author Igor A. Zelaya
- * @verions 1.0.0
+ * @version 1.0.0
  */
 @Service
 @RequiredArgsConstructor

@@ -9,7 +9,6 @@ import lombok.Setter;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.FieldError;
 import org.springframework.validation.ObjectError;
-
 import javax.validation.ConstraintViolation;
 import java.time.Instant;
 import java.util.ArrayList;
@@ -78,7 +77,7 @@ public class ErrorResponse {
      * Add Sub Error to list.
      * @param subError SubError
      */
-    private void addSubError(SubError subError){
+    private void addSubError(SubError subError) {
         this.subErrors.add(subError);
     }
 
@@ -87,7 +86,7 @@ public class ErrorResponse {
      * @param object object name
      * @param message error message
      */
-    private void addValidationError(String object, String message){
+    private void addValidationError(String object, String message) {
         this.addSubError(new ValidationError(object, message));
     }
 
@@ -99,7 +98,7 @@ public class ErrorResponse {
      * @param message error message
      */
     private void addValidationError
-            (String object, String field, Object rejectedValue, String message){
+            (String object, String field, Object rejectedValue, String message) {
         this.addSubError(new ValidationError(object, field, rejectedValue, message));
     }
 
@@ -107,7 +106,7 @@ public class ErrorResponse {
      * add FieldError to sub errors.
      * @param fieldError
      */
-    private void addValidationError(FieldError fieldError){
+    private void addValidationError(FieldError fieldError) {
         this.addValidationError
                 (fieldError.getObjectName(), fieldError.getField(),
                         fieldError.getRejectedValue(), fieldError.getDefaultMessage());
@@ -115,40 +114,47 @@ public class ErrorResponse {
 
     /**
      * Add object error to sub errors.
-     * @param objectError
+     * @param objectError ObjectError
      */
-    private void addValidationError(ObjectError objectError){
+    private void addValidationError(ObjectError objectError) {
         this.addValidationError(objectError.getObjectName(), objectError.getDefaultMessage());
     }
 
     /**
-     *
-     * @param fieldErrors
+     * Add a list of fieldErrors to Sub errors.
+     * @param fieldErrors List FieldError
      */
-    public void addValidationErrors(List<FieldError> fieldErrors){
+    public void addValidationErrors(List<FieldError> fieldErrors) {
         fieldErrors
                 .forEach(error -> addValidationError(error));
     }
 
     /**
-     *
+     * Add a list of Object Errors to Sub errors.
      * @param objectErrors
      */
-    public void addValidationError(List<ObjectError> objectErrors){
+    public void addValidationError(List<ObjectError> objectErrors) {
         objectErrors
                 .forEach(error -> addValidationError(error));
     }
 
 
-    
-    private void addValidationError(ConstraintViolation<?> constraintViolation){
+    /**
+     * Add a constraint violation to sub errors.
+     * @param constraintViolation
+     */
+    private void addValidationError(ConstraintViolation<?> constraintViolation) {
         this.addValidationError(constraintViolation.getRootBeanClass().getSimpleName(),
                 constraintViolation.getPropertyPath().toString(),
                 constraintViolation.getInvalidValue(),
                 constraintViolation.getMessage());
     }
 
-    public void addValidationErrors(Set<ConstraintViolation<?>> constraintViolations){
+    /**
+     * Add a Set of Constraint Violations to Sub errors.
+     * @param constraintViolations
+     */
+    public void addValidationErrors(Set<ConstraintViolation<?>> constraintViolations) {
         constraintViolations
                 .forEach(violation -> addValidationError(violation));
     }

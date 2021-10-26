@@ -28,6 +28,14 @@ public class StudentController {
 
 	private final StudentService studentService;
 
+	/**
+	 * Get Paginated sorted students with given criteria.
+	 * @param studentName String studentName
+	 * @param page Page number
+	 * @param size page size
+	 * @param sort Sort params
+	 * @return ResponseEntity PageResponse StudentDto
+	 */
 	@GetMapping
 	public ResponseEntity<? extends PageResponse<StudentDto>> getStudents(
 			@RequestParam(required = false)String studentName,
