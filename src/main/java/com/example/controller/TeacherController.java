@@ -34,7 +34,7 @@ public class TeacherController {
      * @param sort Sorting params
      * @return ResponseEntity PageResponse TeacherDto
      */
-    @GetMapping
+    @GetMapping(params = {"teacherName", "page", "size", "sort"})
     public ResponseEntity<? extends PageResponse<TeacherDto>> getTeachers(
             @RequestParam(required = false) final String teacherName,
             @RequestParam(defaultValue = "0") int page,
@@ -67,8 +67,8 @@ public class TeacherController {
      * @param teacherName String
      * @return ResponseEntity TeacherDto
      */
-    @GetMapping(value = "/{teacherName}")
-    public ResponseEntity<? extends Response<TeacherDto>> findTeacherByName(@PathVariable final String teacherName){
+    @GetMapping(params = "teacherName")
+    public ResponseEntity<? extends Response<TeacherDto>> findTeacherByName(@RequestParam final String teacherName){
         TeacherDto retrievedTeacher = teacherService.findTeacherByName(teacherName);
         BaseResponse<TeacherDto> teacherBaseResponse = new BaseResponse<>();
         return teacherBaseResponse

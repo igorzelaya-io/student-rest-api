@@ -13,6 +13,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 
@@ -22,7 +23,7 @@ import org.springframework.web.bind.annotation.*;
  * @version 1.0.0
  */
 @RestController
-@RequestMapping(path = "/api/v1/students", produces = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(path = "/api/v1/students")
 @RequiredArgsConstructor
 public class StudentController {
 
@@ -36,7 +37,7 @@ public class StudentController {
 	 * @param sort Sort params
 	 * @return ResponseEntity PageResponse StudentDto
 	 */
-	@GetMapping
+	@GetMapping(params = {"studentName", "page", "size", "sort"})
 	public ResponseEntity<? extends PageResponse<StudentDto>> getStudents(
 			@RequestParam(required = false)String studentName,
 			@RequestParam(defaultValue = "0")int page,
@@ -57,7 +58,7 @@ public class StudentController {
 	 * @return ResponseEntity Response Student
 	 */
 	@PostMapping
-	public ResponseEntity<? extends Response<StudentDto>> saveStudent(@RequestBody @Valid  StudentDto studentDto) {
+	public ResponseEntity<? extends Response<StudentDto>> saveStudent(@RequestBody @Valid StudentDto studentDto) {
 		studentService.saveStudent(studentDto);
 		BaseResponse<StudentDto> studentBaseResponse = new BaseResponse<>();
 		return studentBaseResponse
@@ -80,8 +81,8 @@ public class StudentController {
 	 * @param studentName String
 	 * @return ResponseEntity Student
 	 */
-	@GetMapping(value = "/{studentName}")
-	public ResponseEntity<? extends StudentDto> findStudentByName(@PathVariable final String studentName){
+	@GetMapping(params = "studentName")
+	public ResponseEntity<? extends StudentDto> findStudentByName(@RequestParam("studentName") final String studentName){
 		StudentDto retrievedStudent = studentService.findStudentByName(studentName);
 		return new ResponseEntity<>(retrievedStudent, HttpStatus.OK);
 	}

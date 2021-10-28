@@ -20,10 +20,14 @@ import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 import org.springframework.web.servlet.NoHandlerFoundException;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
-
 import javax.persistence.EntityNotFoundException;
 import javax.validation.ConstraintViolationException;
 
+/**
+ * Exception Handler for all thrown exceptions.
+ * @author Igor A. Zelaya
+ * @version 1.0.0
+ */
 @ControllerAdvice
 @Order(Ordered.HIGHEST_PRECEDENCE)
 @Slf4j
@@ -63,14 +67,6 @@ public class StudentApiExceptionHandler extends ResponseEntityExceptionHandler {
         return buildResponseEntity(errorResponse);
     }
 
-    @ExceptionHandler(ConstraintViolationException.class)
-    protected ResponseEntity<Object> handleConstraintViolation(ConstraintViolationException ex){
-        ErrorResponse errorResponse = new ErrorResponse(HttpStatus.BAD_REQUEST);
-        errorResponse.setMessage("Validation error.");
-        errorResponse.addValidationErrors(ex.getConstraintViolations());
-        return buildResponseEntity(errorResponse);
-    }
-
     @Override
     protected ResponseEntity<Object> handleHttpMessageNotReadable(HttpMessageNotReadableException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
         ServletWebRequest servletWebRequest = (ServletWebRequest) request;
@@ -99,6 +95,24 @@ public class StudentApiExceptionHandler extends ResponseEntityExceptionHandler {
         return buildResponseEntity(response);
     }
 
+    /**
+     * When thrown ConstraintViolationException return this response.
+     * @param ex ConstraintViolationException
+     * @return ErrorResponse
+     */
+    @ExceptionHandler(ConstraintViolationException.class)
+    protected ResponseEntity<Object> handleConstraintViolation(ConstraintViolationException ex){
+        ErrorResponse errorResponse = new ErrorResponse(HttpStatus.BAD_REQUEST);
+        errorResponse.setMessage("Validation error.");
+        errorResponse.addValidationErrors(ex.getConstraintViolations());
+        return buildResponseEntity(errorResponse);
+    }
+
+    /**
+     * When thrown ResourceNotFoundException, return this response.
+     * @param ex ResourceNotFoundException
+     * @return ErrorResponse
+     */
     @ExceptionHandler({ResourceNotFoundException.class})
     protected ResponseEntity handleResourceNotFoundException(ResourceNotFoundException ex){
         ErrorResponse response = new ErrorResponse(HttpStatus.NOT_FOUND);
@@ -135,8 +149,8 @@ public class StudentApiExceptionHandler extends ResponseEntityExceptionHandler {
 
     /**
      * Build ResponseEntity for Given ErrorResponse.
-     * @param errorResponse
-     * @return
+     * @param errorResponse built ErrorResponse
+     * @return ResponseEntity of given response.
      */
     private ResponseEntity<Object> buildResponseEntity(ErrorResponse errorResponse){
         return new ResponseEntity<>(errorResponse, errorResponse.getHttpStatus());

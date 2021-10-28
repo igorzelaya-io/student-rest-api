@@ -50,6 +50,15 @@ public class SubjectController {
                 .buildResponseEntity(HttpStatus.OK, "Subject found",  subjectDto);
     }
 
+    @GetMapping
+    public ResponseEntity<? extends Response<SubjectDto>> findSubjectByName(
+            @RequestParam("subjectName") final String subjectName){
+        SubjectDto subjectDto = subjectService.findSubjectByName(subjectName);
+        BaseResponse<SubjectDto> subjectDtoBaseResponse = new BaseResponse<>();
+        return subjectDtoBaseResponse
+                .buildResponseEntity(HttpStatus.OK, "Subject found.", subjectDto);
+    }
+
     /**
      * DELETE handler method for deleting a Subject by its ID.
      * @param subjectId
