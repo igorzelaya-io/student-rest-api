@@ -4,7 +4,7 @@ import com.example.exception.ResourceNotFoundException;
 import com.example.model.Student;
 
 /**
- * Student 404 status exception
+ * Student 404 status exception.
  * @author Igor A. Zelaya
  */
 public class StudentNotFoundException extends ResourceNotFoundException {

@@ -2,6 +2,7 @@ package com.example.service;
 
 import com.example.dto.StudentDto;
 import com.example.exception.StudentNotFoundException;
+import com.example.model.Student;
 import org.springframework.data.domain.Page;
 
 /**
@@ -15,7 +16,7 @@ public interface StudentService {
      * Saves given Student into DB.
      * @param studentDto Student
      */
-    void saveStudent(StudentDto studentDto);
+    StudentDto saveStudent(StudentDto studentDto);
 
     /**
      * Find a student by its ID.

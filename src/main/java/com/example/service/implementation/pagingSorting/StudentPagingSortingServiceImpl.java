@@ -6,7 +6,6 @@ import com.example.repository.pagingSorting.StudentPagingAndSortingRepository;
 import com.example.service.pagingSorting.StudentPagingSortingService;
 import com.example.utils.SortingPagingUtils;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 import java.util.List;
@@ -25,8 +24,7 @@ public class StudentPagingSortingServiceImpl implements StudentPagingSortingServ
 
     private final StudentMapper studentMapper;
 
-    @Autowired
-    private SortingPagingUtils sortingPagingUtils;
+    private final SortingPagingUtils sortingPagingUtils;
 
     @Override
     public Page<StudentDto> findPaginatedSortedStudents
@@ -35,24 +33,24 @@ public class StudentPagingSortingServiceImpl implements StudentPagingSortingServ
         List<Sort.Order> orders = sortingPagingUtils.getSortOrders(sort);
         Pageable pageable = PageRequest.of(page, size, Sort.by(orders));
         Page<StudentDto> studentPage;
-        if(studentName == null){
-            List<StudentDto> studentDtos = pagingAndSortingRepository
+        List<StudentDto> studentDtos;
+        if(studentName == null) {
+            studentDtos = pagingAndSortingRepository
                     .findAll(pageable)
                     .stream()
                     .map(student -> studentMapper.studentToDto(student))
                     .collect(Collectors.toList());
 
-            studentPage = new PageImpl<>(studentDtos);
         }
-        else{
-            List<StudentDto> studentDtos = pagingAndSortingRepository
+        else {
+            studentDtos = pagingAndSortingRepository
                     .findByStudentNameContaining(studentName, pageable)
                     .stream()
                     .map(student -> studentMapper.studentToDto(student))
                     .collect(Collectors.toList());
 
-            studentPage = new PageImpl<>(studentDtos);
         }
+        studentPage = new PageImpl<>(studentDtos);
         return studentPage;
     }
 

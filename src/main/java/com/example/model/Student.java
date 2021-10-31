@@ -51,10 +51,10 @@ public class Student {
 	 * Adds fields which are not populated by Student DTO.
 	 * @return
 	 */
-	public static Student buildFromDto(Student studentDto){
-		studentDto.setStudentId(UUID.randomUUID().toString());
-		studentDto.setStudentStatus(ModelStatus.ACTIVE);
-		return studentDto;
+	public static Student buildFromDto(Student student){
+		student.setStudentId(UUID.randomUUID().toString());
+		student.setStudentStatus(ModelStatus.ACTIVE);
+		return student;
 	}
 
 	@Override

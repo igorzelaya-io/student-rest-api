@@ -5,6 +5,7 @@ import javax.validation.Valid;
 import com.example.dto.StudentDto;
 import com.example.dto.pageable.PageResponse;
 import com.example.dto.pageable.PageResponseDto;
+import com.example.model.Student;
 import com.example.response.BaseResponse;
 import com.example.response.Response;
 import com.example.service.StudentService;
@@ -59,10 +60,10 @@ public class StudentController {
 	 */
 	@PostMapping
 	public ResponseEntity<? extends Response<StudentDto>> saveStudent(@RequestBody @Valid StudentDto studentDto) {
-		studentService.saveStudent(studentDto);
+		StudentDto savedStudent = studentService.saveStudent(studentDto);
 		BaseResponse<StudentDto> studentBaseResponse = new BaseResponse<>();
 		return studentBaseResponse
-				.buildResponseEntity(HttpStatus.CREATED, "Student saved successfully", studentDto);
+				.buildResponseEntity(HttpStatus.CREATED, "Student saved successfully", savedStudent);
 	}
 
 	/**

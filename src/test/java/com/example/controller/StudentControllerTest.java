@@ -1,24 +1,20 @@
 package com.example.controller;
 
+import com.example.config.WebMvcConfiguration;
 import com.example.dto.StudentDto;
-import com.example.exception.StudentNotFoundException;
-import com.example.response.Response;
 import com.example.service.StudentService;
-import org.junit.Assert;
+import com.example.service.pagingSorting.StudentPagingSortingService;
+import com.example.utils.SortingPagingUtils;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.jupiter.api.Assertions;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
+import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.web.servlet.ResultActions;
-import org.springframework.util.CollectionUtils;
-import org.springframework.util.MultiValueMap;
-import org.springframework.util.MultiValueMapAdapter;
-
 import java.util.*;
 
 import static org.mockito.Mockito.*;
@@ -27,10 +23,18 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @ContextConfiguration(classes = StudentController.class)
+@RunWith(SpringJUnit4ClassRunner.class)
+@Import(WebMvcConfiguration.class)
 public class StudentControllerTest extends AbstractTestController{
 
     @MockBean
     private StudentService studentService;
+
+    @Autowired
+    private SortingPagingUtils sortingPagingUtils;
+
+    @MockBean
+    private StudentPagingSortingService studentPagingSortingService;
 
     private static final String baseUri = "/api/v1/students";
 
@@ -42,7 +46,9 @@ public class StudentControllerTest extends AbstractTestController{
 
     final String[] SORT = new String[]{"studentId, desc"};
 
-    final String STUDENT_ID = UUID.randomUUID().toString();
+    private static final String STUDENT_ID = UUID.randomUUID().toString();
+
+    private static final String STUDENT_NAME = "Igor Zelaya";
 
     @Before
     public void init(){
@@ -55,18 +61,6 @@ public class StudentControllerTest extends AbstractTestController{
                 .studentSubjects(new ArrayList<>())
                 .build();
     }
-
-//    @Test
-//    public void shouldGetPaginatedSortedStudents() throws Exception {
-//
-//        Page<StudentDto> studentDtoPage = new PageImpl<>(List.of(studentDto));
-//        when(studentService
-//                .findPaginatedSortedStudents(studentDto.getStudentName(), PAGE_NUMBER, PAGE_SIZE, SORT))
-//                .thenReturn(studentDtoPage);
-//
-//        doRequestGetPaginatedSortedStudents()
-//                .andExpect(status().isOk());
-//    }
 
     @Test
     public void shouldGetStudentById() throws Exception {
@@ -85,7 +79,7 @@ public class StudentControllerTest extends AbstractTestController{
 
         doRequestGetStudentByName(studentDto.getStudentName())
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.studentName").value(STUDENT_ID));
+                .andExpect(jsonPath("$.studentName").value(STUDENT_NAME));
     }
 
     @Test
@@ -99,10 +93,11 @@ public class StudentControllerTest extends AbstractTestController{
 
     @Test
     public void shouldSaveUser() throws Exception {
-        doNothing().when(studentService).saveStudent(studentDto);
+        when(studentService.saveStudent(studentDto))
+                .thenReturn(studentDto);
 
         doRequestSaveStudent(studentDto)
-                .andExpect(status().isOk());
+                .andExpect(status().isCreated());
     }
 
     @Test
@@ -154,6 +149,7 @@ public class StudentControllerTest extends AbstractTestController{
         return getMockMvc()
                 .perform(post(baseUri)
                         .contentType(MediaType.APPLICATION_JSON)
+                        .accept(MediaType.APPLICATION_JSON)
                         .content(getObjectMapper()
                                 .writeValueAsString(studentDto)));
     }

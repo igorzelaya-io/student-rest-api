@@ -9,7 +9,6 @@ import java.util.List;
  * Utils for Paging and Sorting.
  * @author Igor A. Zelaya
  */
-@Component
 public class SortingPagingUtils {
 
     /**

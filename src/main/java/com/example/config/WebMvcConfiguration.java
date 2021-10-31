@@ -1,5 +1,6 @@
 package com.example.config;
 
+import com.example.utils.SortingPagingUtils;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.support.ResourceBundleMessageSource;
@@ -14,6 +15,11 @@ public class WebMvcConfiguration {
         source.setBasename("static/messages");
         source.setUseCodeAsDefaultMessage(true);
         return source;
+    }
+
+    @Bean
+    public SortingPagingUtils sortingPagingUtils(){
+        return new SortingPagingUtils();
     }
 
 }

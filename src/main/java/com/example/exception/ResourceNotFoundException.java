@@ -24,7 +24,7 @@ public class ResourceNotFoundException extends RuntimeException{
 
 	private static String generateExceptionMessage(String entity, Map<String, String> searchParams){
 		return new StringBuilder(StringUtils.capitalize(entity))
-				.append(" was not found for parameters")
+				.append(" was not found for parameters ")
 				.append(searchParams)
 				.toString();
 	}

@@ -5,7 +5,8 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public enum MessageKey {
 
-    HELLOWORLD("");
+    //Not found.
+    STUDENT_NOT_FOUND("student-not-found");
 
     public final String key;
 
