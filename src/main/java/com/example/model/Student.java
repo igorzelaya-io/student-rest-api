@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.UUID;
 import javax.persistence.*;
 import com.example.model.status.ModelStatus;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import lombok.*;
 
 /**

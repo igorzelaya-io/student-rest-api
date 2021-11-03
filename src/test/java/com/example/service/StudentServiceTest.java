@@ -7,10 +7,7 @@ import com.example.model.Student;
 import com.example.model.mapper.StudentMapper;
 import com.example.model.status.ModelStatus;
 import com.example.repository.StudentRepository;
-import com.example.repository.pagingSorting.StudentPagingAndSortingRepository;
 import com.example.service.implementation.StudentServiceImpl;
-import com.example.service.implementation.pagingSorting.StudentPagingSortingServiceImpl;
-import com.example.service.pagingSorting.StudentPagingSortingService;
 import com.example.utils.MessageKey;
 import com.example.utils.Messages;
 import com.example.utils.SortingPagingUtils;
@@ -44,10 +41,6 @@ public class StudentServiceTest {
 
     private StudentRepository studentRepository;
 
-    private StudentPagingAndSortingRepository studentPagingAndSortingRepository;
-
-    private StudentPagingSortingService studentPagingSortingService;
-
     private StudentService studentService;
 
     private StudentMapper studentMapper;
@@ -68,12 +61,8 @@ public class StudentServiceTest {
     public void init() {
 
         studentRepository = Mockito.mock(StudentRepository.class);
-        studentPagingAndSortingRepository = Mockito.mock(StudentPagingAndSortingRepository.class);
         studentMapper = Mappers.getMapper(StudentMapper.class);
-        studentPagingSortingService = new StudentPagingSortingServiceImpl
-                (studentPagingAndSortingRepository, studentMapper, sortingPagingUtils);
-
-        studentService = new StudentServiceImpl(studentRepository, studentMapper, studentPagingSortingService);
+        studentService = new StudentServiceImpl(studentRepository, studentMapper, sortingPagingUtils);
 
         STUDENT_NOT_FOUND  = messages
                 .getMessage(MessageKey.STUDENT_NOT_FOUND.getKey());
@@ -171,10 +160,10 @@ public class StudentServiceTest {
         List<Sort.Order> sortOrder = List.of(new Sort.Order(Sort.Direction.DESC, "studentId"));
         Pageable pageable = PageRequest.of(0, 3, Sort.by(sortOrder));
 
-        when(studentPagingAndSortingRepository.findByStudentNameContaining(STUDENT_NAME, pageable))
+        when(studentRepository.findByStudentNameContaining(STUDENT_NAME, pageable))
                 .thenReturn(studentDtoFakePage);
 
-        Page<StudentDto> studentDtos = studentPagingSortingService
+        Page<StudentDto> studentDtos = studentService
                 .findPaginatedSortedStudents(STUDENT_NAME, 0, 3, new String[]{"studentId, desc"});
 
         assertThat(studentDtos).isNotNull();

@@ -55,7 +55,7 @@ public class StudentControllerTest extends AbstractTestController{
         studentDto = StudentDto
                 .builder()
                 .studentId(STUDENT_ID)
-                .studentName("Igor Zelaya")
+                .studentName(STUDENT_NAME)
                 .studentAge(18)
                 .studentEmail("a@b.com")
                 .studentSubjects(new ArrayList<>())

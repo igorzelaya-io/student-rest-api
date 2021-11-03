@@ -1,6 +1,8 @@
 package com.example.repository;
 
 import com.example.model.Subject;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
@@ -20,5 +22,13 @@ public interface SubjectRepository extends JpaRepository<Subject, String> {
      * @return Optional Subject
      */
     Optional<Subject> findSubjectBySubjectName(String subjectName);
+
+    /**
+     * Find Paginated subjects by name.
+     * @param subjectName
+     * @param pageable
+     * @return
+     */
+    Page<Subject> findBySubjectNameContaining(String subjectName, Pageable pageable);
     
 }

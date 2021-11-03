@@ -8,9 +8,10 @@ import com.example.model.status.ModelStatus;
 import com.example.repository.SubjectRepository;
 import com.example.service.SubjectService;
 import com.example.service.pagingSorting.SubjectPagingSortingService;
+import com.example.utils.SortingPagingUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
+import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.Tuple;
@@ -32,12 +33,24 @@ public class SubjectServiceImpl implements SubjectService {
 
     private final SubjectRepository subjectRepository;
 
-    private final SubjectPagingSortingService pagingSortingService;
+    private final SortingPagingUtils sortingPagingUtils;
 
     @Override
     public Page<SubjectDto> findBySubjectNameContaining
             (final String subjectName, final int page, final int size, final String[] sort) {
-        return pagingSortingService.findBySubjectNameContaining(subjectName, page, size, sort);
+        List<Sort.Order> orders = sortingPagingUtils.getSortOrders(sort);
+        Pageable pageable = PageRequest.of(page, size, Sort.by(orders));
+        List<SubjectDto> subjects;
+        if(subjectName == null){
+            subjects = subjectMapper
+                    .subjectsToDtos(subjectRepository.findAll(pageable).toList());
+        }
+        else {
+            subjects = subjectMapper
+                    .subjectsToDtos(subjectRepository
+                            .findBySubjectNameContaining(subjectName, pageable).toList());
+        }
+        return new PageImpl<>(subjects);
     }
 
     @Override

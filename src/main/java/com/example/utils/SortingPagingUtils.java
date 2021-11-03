@@ -37,7 +37,7 @@ public class SortingPagingUtils {
      * @param sortDirection String
      * @return Direction
      */
-    private Sort.Direction getSortDirection(String sortDirection){
+    private Sort.Direction getSortDirection(final String sortDirection){
         if(sortDirection.equals("desc")){
             return Sort.Direction.DESC;
         }

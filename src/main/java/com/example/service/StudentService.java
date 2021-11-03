@@ -2,7 +2,6 @@ package com.example.service;
 
 import com.example.dto.StudentDto;
 import com.example.exception.StudentNotFoundException;
-import com.example.model.Student;
 import org.springframework.data.domain.Page;
 
 /**

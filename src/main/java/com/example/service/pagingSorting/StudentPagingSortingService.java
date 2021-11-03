@@ -10,7 +10,6 @@ import org.springframework.data.domain.Page;
  */
 public interface StudentPagingSortingService {
 
-
     /**
      * Return a Page of sorted students.
      * @param studentName String name to query by.

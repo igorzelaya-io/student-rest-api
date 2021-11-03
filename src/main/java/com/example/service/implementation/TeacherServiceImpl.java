@@ -8,9 +8,12 @@ import com.example.model.status.ModelStatus;
 import com.example.repository.TeacherRepository;
 import com.example.service.TeacherService;
 import com.example.service.pagingSorting.TeacherPagingSortingService;
+import com.example.utils.SortingPagingUtils;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
+import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 /**
  * Service implementation class for Teacher entity.
@@ -25,11 +28,23 @@ public class TeacherServiceImpl implements TeacherService {
 
 	private final TeacherMapper teacherMapper;
 
-	private final TeacherPagingSortingService teacherPagingSortingService;
+	private final SortingPagingUtils sortingPagingUtils;
 
 	@Override
 	public Page<TeacherDto> findPaginatedSortedTeachers(String teacherName, int page, int size, String[] sort) {
-		return teacherPagingSortingService.findPaginatedSortedTeachers(teacherName, page, size, sort);
+		List<Sort.Order> orders = sortingPagingUtils.getSortOrders(sort);
+		Pageable pageable = PageRequest.of(page, size, Sort.by(orders));
+		List<TeacherDto> teacherDtos;
+		if(teacherName == null){
+			teacherDtos = teacherMapper
+					.teachersToDtos(teacherRepository.findAll(pageable).toList());
+		}
+		else {
+			teacherDtos = teacherMapper
+					.teachersToDtos(teacherRepository
+							.findByTeacherNameContaining(teacherName, pageable).toList());
+		}
+		return new PageImpl<>(teacherDtos);
 	}
 
 	@Override

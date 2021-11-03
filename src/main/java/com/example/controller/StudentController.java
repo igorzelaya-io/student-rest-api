@@ -1,22 +1,17 @@
 package com.example.controller;
 
 import javax.validation.Valid;
-
 import com.example.dto.StudentDto;
 import com.example.dto.pageable.PageResponse;
 import com.example.dto.pageable.PageResponseDto;
-import com.example.model.Student;
 import com.example.response.BaseResponse;
 import com.example.response.Response;
 import com.example.service.StudentService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-
 
 /**
  * Controller for Student entity operations.

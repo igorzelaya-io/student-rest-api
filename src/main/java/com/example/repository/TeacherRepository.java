@@ -3,6 +3,8 @@ package com.example.repository;
 import java.util.Optional;
 
 import com.example.model.Teacher;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -20,5 +22,13 @@ public interface TeacherRepository extends JpaRepository<Teacher, String>{
 	 * @return Optional Teacher
 	 */
 	Optional<Teacher> findByTeacherName(String teacherName);
+
+	/**
+	 * Find Paginated teachers by name.
+	 * @param teacherName
+	 * @param pageable
+	 * @return
+	 */
+	Page<Teacher> findByTeacherNameContaining(String teacherName, Pageable pageable);
 	
 }
