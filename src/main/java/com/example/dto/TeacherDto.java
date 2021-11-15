@@ -3,11 +3,13 @@ package com.example.dto;
 import com.example.model.Subject;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.*;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -17,6 +19,8 @@ import java.util.List;
  */
 @Builder
 @Getter
+@AllArgsConstructor
+@NoArgsConstructor
 @JsonSerialize
 public class TeacherDto {
 
@@ -42,6 +46,6 @@ public class TeacherDto {
     private String teacherEmail;
 
     @JsonProperty("teacherSubjects")
-    private List<Subject> teacherSubjects;
+    private List<Subject> teacherSubjects = new ArrayList<>();
 
 }

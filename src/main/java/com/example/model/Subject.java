@@ -32,10 +32,10 @@ public class Subject {
 	
 	@ManyToMany(mappedBy = "studentSubjects",
 				fetch = FetchType.EAGER,
-				cascade = CascadeType.ALL)
+				cascade = { CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH })
 	private List<Student> subjectStudents;
 
-	@ManyToOne(fetch = FetchType.EAGER)
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "teacher_id")
 	private Teacher teacher;
 
@@ -93,4 +93,7 @@ public class Subject {
 		this.subjectStatus = modelStatus;
 	}
 
+	public void setSubjectTeacher(Teacher teacher){
+		this.teacher = teacher;
+	}
 }

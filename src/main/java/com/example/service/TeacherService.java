@@ -1,5 +1,6 @@
 package com.example.service;
 
+import com.example.dto.SubjectDto;
 import com.example.dto.TeacherDto;
 import com.example.exception.TeacherNotFoundException;
 import org.springframework.data.domain.Page;
@@ -15,7 +16,7 @@ public interface TeacherService {
      * Saves given Teacher into Db.
      * @param teacherDto
      */
-    void saveTeacher(TeacherDto teacherDto);
+    TeacherDto saveTeacher(TeacherDto teacherDto);
 
     /**
      * Find a Teacher by its ID.
@@ -39,6 +40,20 @@ public interface TeacherService {
      * @param teacherId
      */
     void deleteTeacherById(final String teacherId);
+
+
+    /**
+     * Add A Subject to TeacherSubjects List.
+     * @param subjectDto SubjectDto
+     */
+    void addSubjectToTeacher(final String teacherId, SubjectDto subjectDto);
+
+    /**
+     * If exists in teacher, remove from list.
+     * @param teacherId String
+     * @param subjectId String
+     */
+    void removeSubjectFromTeacher(final String teacherId, final String subjectId);
 
 
     /**

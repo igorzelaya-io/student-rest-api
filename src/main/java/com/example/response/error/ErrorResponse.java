@@ -4,6 +4,7 @@ import com.example.utils.JsonLowerCaseResolver;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.annotation.JsonTypeIdResolver;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.http.HttpStatus;
@@ -22,6 +23,7 @@ import java.util.Set;
  */
 @JsonSerialize
 @JsonTypeIdResolver(JsonLowerCaseResolver.class)
+@Schema(name = "ErrorResponse", description = "Model to represent an Api Error")
 @Getter
 @Setter
 public class ErrorResponse {

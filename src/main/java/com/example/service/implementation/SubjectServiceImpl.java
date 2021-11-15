@@ -1,24 +1,16 @@
 package com.example.service.implementation;
 import com.example.dto.SubjectDto;
 import com.example.exception.SubjectNotFoundException;
-import com.example.model.Student;
 import com.example.model.Subject;
 import com.example.model.mapper.SubjectMapper;
 import com.example.model.status.ModelStatus;
 import com.example.repository.SubjectRepository;
 import com.example.service.SubjectService;
-import com.example.service.pagingSorting.SubjectPagingSortingService;
 import com.example.utils.SortingPagingUtils;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
-
-import javax.persistence.Tuple;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 
 /**
  * Service class for Subject class
@@ -54,10 +46,11 @@ public class SubjectServiceImpl implements SubjectService {
     }
 
     @Override
-    public void saveSubject(SubjectDto subjectDto){
+    public SubjectDto saveSubject(SubjectDto subjectDto){
         Subject subject = Subject
                 .buildFromDto(subjectMapper.dtoToSubject(subjectDto));
         this.subjectRepository.save(subject);
+        return subjectDto;
     }
 
     @Override

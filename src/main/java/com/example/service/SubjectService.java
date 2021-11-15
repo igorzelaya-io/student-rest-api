@@ -2,6 +2,12 @@ package com.example.service;
 
 import com.example.dto.SubjectDto;
 import com.example.exception.SubjectNotFoundException;
+import com.example.model.Student;
+import com.example.model.Subject;
+import com.example.model.mapper.StudentMapper;
+import com.example.model.mapper.SubjectMapper;
+import org.mapstruct.Mapper;
+import org.mapstruct.factory.Mappers;
 import org.springframework.data.domain.Page;
 
 /**
@@ -15,7 +21,7 @@ public interface SubjectService {
      * Save Subject entity.
      * @param subjectDto SubjectDto
      */
-    void saveSubject(SubjectDto subjectDto);
+    SubjectDto saveSubject(SubjectDto subjectDto);
 
 
     /**
@@ -51,6 +57,14 @@ public interface SubjectService {
     Page<SubjectDto> findBySubjectNameContaining
     (final String subjectName, final int page, final int size, final String[] sort);
 
-
+    /**
+     * Util method for mapping Dtos to Subject entity.
+     * @param subjectDto Dto to convert
+     * @return Subject instance
+     */
+    static Subject dtoToSubject(SubjectDto subjectDto){
+        SubjectMapper mapper = Mappers.getMapper(SubjectMapper.class);
+        return mapper.dtoToSubject(subjectDto);
+    }
 
 }

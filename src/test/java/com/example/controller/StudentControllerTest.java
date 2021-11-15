@@ -2,15 +2,20 @@ package com.example.controller;
 
 import com.example.config.WebMvcConfiguration;
 import com.example.dto.StudentDto;
+import com.example.model.Student;
 import com.example.service.StudentService;
-import com.example.service.pagingSorting.StudentPagingSortingService;
 import com.example.utils.SortingPagingUtils;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Import;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -25,7 +30,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @ContextConfiguration(classes = StudentController.class)
 @RunWith(SpringJUnit4ClassRunner.class)
 @Import(WebMvcConfiguration.class)
-public class StudentControllerTest extends AbstractTestController{
+public class StudentControllerTest extends AbstractTestController {
 
     @MockBean
     private StudentService studentService;
@@ -33,22 +38,21 @@ public class StudentControllerTest extends AbstractTestController{
     @Autowired
     private SortingPagingUtils sortingPagingUtils;
 
-    @MockBean
-    private StudentPagingSortingService studentPagingSortingService;
-
     private static final String baseUri = "/api/v1/students";
 
     private StudentDto studentDto;
 
-    final int PAGE_NUMBER = 0;
-
-    final int PAGE_SIZE = 3;
-
-    final String[] SORT = new String[]{"studentId, desc"};
+    private Student student;
 
     private static final String STUDENT_ID = UUID.randomUUID().toString();
 
     private static final String STUDENT_NAME = "Igor Zelaya";
+
+    private static final int PAGE_NUMBER = 0;
+
+    private static final int PAGE_SIZE = 3;
+
+    private static final String[] sort = new String[]{"studentId,desc"};
 
     @Before
     public void init(){
@@ -60,6 +64,28 @@ public class StudentControllerTest extends AbstractTestController{
                 .studentEmail("a@b.com")
                 .studentSubjects(new ArrayList<>())
                 .build();
+
+        student = Student
+                .builder()
+                .studentId(STUDENT_ID)
+                .studentName(STUDENT_NAME)
+                .studentAge(20)
+                .studentEmail("i@z.com")
+                .studentSubjects(new ArrayList<>())
+                .build();
+    }
+
+    @Test
+    @Ignore
+    public void shouldGetPaginatedSortedStudents() throws Exception {
+        Page<StudentDto> studentFakePage = new PageImpl<>(List.of(studentDto));
+
+        when(studentService
+                .findPaginatedSortedStudents(STUDENT_NAME, PAGE_NUMBER, PAGE_SIZE, sort))
+                .thenReturn(studentFakePage);
+
+        doRequestGetPaginatedSortedStudents()
+                .andExpect(status().isOk());
     }
 
     @Test
@@ -118,7 +144,7 @@ public class StudentControllerTest extends AbstractTestController{
                         .param("studentName", studentDto.getStudentName())
                         .param("page", String.valueOf(PAGE_NUMBER))
                         .param("size", String.valueOf(PAGE_SIZE))
-                        .param("sort", SORT)
+                        .param("sort", sort)
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON));
     }

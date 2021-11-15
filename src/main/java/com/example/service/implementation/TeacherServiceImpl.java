@@ -1,18 +1,20 @@
 package com.example.service.implementation;
 
+import com.example.dto.SubjectDto;
 import com.example.dto.TeacherDto;
 import com.example.exception.TeacherNotFoundException;
+import com.example.model.Subject;
 import com.example.model.Teacher;
+import com.example.model.mapper.SubjectMapper;
 import com.example.model.mapper.TeacherMapper;
 import com.example.model.status.ModelStatus;
 import com.example.repository.TeacherRepository;
+import com.example.service.SubjectService;
 import com.example.service.TeacherService;
-import com.example.service.pagingSorting.TeacherPagingSortingService;
 import com.example.utils.SortingPagingUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
 
 /**
@@ -28,10 +30,14 @@ public class TeacherServiceImpl implements TeacherService {
 
 	private final TeacherMapper teacherMapper;
 
+	private final SubjectService subjectService;
+
+	private final SubjectMapper subjectMapper;
+
 	private final SortingPagingUtils sortingPagingUtils;
 
 	@Override
-	public Page<TeacherDto> findPaginatedSortedTeachers(String teacherName, int page, int size, String[] sort) {
+	public Page<TeacherDto> findPaginatedSortedTeachers(final String teacherName, final int page, final int size, final String[] sort) {
 		List<Sort.Order> orders = sortingPagingUtils.getSortOrders(sort);
 		Pageable pageable = PageRequest.of(page, size, Sort.by(orders));
 		List<TeacherDto> teacherDtos;
@@ -48,10 +54,11 @@ public class TeacherServiceImpl implements TeacherService {
 	}
 
 	@Override
-	public void saveTeacher(final TeacherDto teacherDto) {
+	public TeacherDto saveTeacher(final TeacherDto teacherDto) {
 		Teacher teacher = Teacher
 				.buildFromDto(teacherMapper.dtoToTeacher(teacherDto));
 		teacherRepository.save(teacher);
+		return teacherMapper.toTeacherDto(teacher);
 	}
 
 	@Override
@@ -74,6 +81,24 @@ public class TeacherServiceImpl implements TeacherService {
 				.toTeacherDto(
 					isActiveTeacher(teacher, "teacherName", teacherName)
 				);
+	}
+
+	@Override
+	public void addSubjectToTeacher(final String teacherId, SubjectDto subjectDto) {
+		Teacher teacher = teacherMapper
+				.dtoToTeacher(findTeacherById(teacherId));
+		Subject subject = Subject.buildFromDto(subjectMapper.dtoToSubject(subjectDto));
+		teacher.addSubject(subject);
+		teacherRepository.save(teacher);
+	}
+
+	@Override
+	public void removeSubjectFromTeacher(final String teacherId, final String subjectId){
+		Teacher teacher = teacherMapper
+				.dtoToTeacher(findTeacherById(teacherId));
+		Subject subject = subjectMapper.dtoToSubject(subjectService.findSubjectById(subjectId));
+		teacher.removeSubject(subject);
+		teacherRepository.save(teacher);
 	}
 
 	@Override
