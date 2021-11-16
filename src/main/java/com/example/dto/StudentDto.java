@@ -1,6 +1,7 @@
 package com.example.dto;
 
 import com.example.model.Subject;
+import com.example.model.status.ModelStatus;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import lombok.*;
@@ -40,6 +41,9 @@ public class StudentDto {
     @Size(min = 4, max = 64)
     @Email(message = "Student email must be valid")
     private String studentEmail;
+
+    @JsonProperty("studentStatus")
+    private ModelStatus studentStatus;
 
     @JsonProperty("studentSubjects")
     private List<Subject> studentSubjects = new ArrayList<>();

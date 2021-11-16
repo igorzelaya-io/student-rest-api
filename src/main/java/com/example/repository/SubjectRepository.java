@@ -21,7 +21,7 @@ public interface SubjectRepository extends JpaRepository<Subject, String> {
      * @param subjectName String
      * @return Optional Subject
      */
-    Optional<Subject> findSubjectBySubjectName(String subjectName);
+    Optional<Subject> findBySubjectNameContainingIgnoreCase(String subjectName);
 
     /**
      * Find Paginated subjects by name.
@@ -30,5 +30,12 @@ public interface SubjectRepository extends JpaRepository<Subject, String> {
      * @return
      */
     Page<Subject> findBySubjectNameContaining(String subjectName, Pageable pageable);
+
+    /**
+     * Validate if subject exists.
+     * @param subjectName
+     * @return
+     */
+    boolean existsBySubjectNameIgnoreCase(String subjectName);
     
 }

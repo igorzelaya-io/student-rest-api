@@ -148,6 +148,14 @@ public class StudentApiExceptionHandler extends ResponseEntityExceptionHandler {
         return buildResponseEntity(response);
     }
 
+    @ExceptionHandler(IllegalArgumentException.class)
+    protected ResponseEntity<Object> handleIllegalArgumentException
+            (IllegalArgumentException ex){
+        ErrorResponse errorResponse = new ErrorResponse(HttpStatus.BAD_REQUEST);
+        errorResponse.setMessage(ex.getMessage());
+        return buildResponseEntity(errorResponse);
+    }
+
     /**
      * Build ResponseEntity for Given ErrorResponse.
      * @param errorResponse built ErrorResponse

@@ -6,6 +6,7 @@ import com.example.dto.openapi.PageResponseTeacherDto;
 import com.example.dto.openapi.ResponseTeacherDto;
 import com.example.dto.pageable.PageResponse;
 import com.example.dto.pageable.PageResponseDto;
+import com.example.model.Teacher;
 import com.example.response.BaseResponse;
 import com.example.response.Response;
 import com.example.response.error.ErrorResponse;
@@ -47,6 +48,7 @@ public class TeacherController {
     @ApiResponse(responseCode = "200", description = "List of teachers retrieved successfully"
         , content = { @Content(mediaType = MediaType.APPLICATION_JSON_VALUE
         , schema = @Schema(implementation = PageResponseTeacherDto.class))})
+
     @GetMapping(params = {"teacherName", "page", "size", "sort"})
     public ResponseEntity<? extends PageResponse<TeacherDto>> getTeachers(
             @RequestParam(required = false) final String teacherName,
@@ -76,6 +78,7 @@ public class TeacherController {
             , content = { @Content(mediaType = MediaType.APPLICATION_JSON_VALUE
             , schema = @Schema(implementation = ErrorResponse.class))})
     })
+
     @GetMapping(value = "/{teacherId}")
     public ResponseEntity<? extends Response<TeacherDto>> findTeacherById(@PathVariable final String teacherId) {
         TeacherDto retrievedTeacher = teacherService.findTeacherById(teacherId);
@@ -98,6 +101,7 @@ public class TeacherController {
             , content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE
             , schema = @Schema(implementation = ResponseTeacherDto.class)))
     })
+
     @GetMapping(params = "teacherName")
     public ResponseEntity<? extends Response<TeacherDto>> findTeacherByName(@RequestParam final String teacherName){
         TeacherDto retrievedTeacher = teacherService.findTeacherByName(teacherName);
@@ -118,10 +122,10 @@ public class TeacherController {
     })
     @PostMapping
     public ResponseEntity<? extends Response<TeacherDto>> saveTeacher(@RequestBody @Valid TeacherDto teacher) {
-        this.teacherService.saveTeacher(teacher);
+        TeacherDto savedTeacher = this.teacherService.saveTeacher(teacher);
         BaseResponse<TeacherDto> teacherBaseResponse = new BaseResponse<>();
         return teacherBaseResponse.buildResponseEntity(HttpStatus.CREATED,
-                "Teacher created successfully.", teacher);
+                "Teacher created successfully.", savedTeacher);
     }
 
     @Operation(summary = "Add subject to teacher")
@@ -130,6 +134,8 @@ public class TeacherController {
             , content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE
             , schema = @Schema(implementation = String.class))),
             @ApiResponse(responseCode = "400", description = "Given subject is invalid"
+            , content = @Content(schema = @Schema(implementation = ErrorResponse.class))),
+            @ApiResponse(responseCode = "404", description = "Teacher not found"
             , content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
     })
     @PostMapping(path = "/{teacherId}/subjects")
@@ -141,10 +147,17 @@ public class TeacherController {
                 .buildResponseEntity(HttpStatus.OK, "Subject added successfully to teacher", teacherId);
     }
 
+
+    @Operation(summary = "Remove subject from teacher")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Subject removed from teacher successfully"
+            , content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE
+                    , schema = @Schema(implementation = String.class)))
+    })
     @DeleteMapping(path = "/{teacherId}/subjects/{subjectId}")
     public ResponseEntity<? extends Response<String>> removeSubjectFromTeacher(@PathVariable("teacherId")String teacherId,
                                                                                @PathVariable("subjectId")String subjectId){
-        removeSubjectFromTeacher(teacherId, subjectId);
+        teacherService.removeSubjectFromTeacher(teacherId, subjectId);
         BaseResponse<String> teacherResponse = new BaseResponse<>();
         return teacherResponse
                 .buildResponseEntity(HttpStatus.OK, "Subject removed successfully", teacherId);

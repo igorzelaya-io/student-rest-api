@@ -4,6 +4,7 @@ package com.example.controller;
 import com.example.dto.SubjectDto;
 import com.example.dto.pageable.PageResponse;
 import com.example.dto.pageable.PageResponseDto;
+import com.example.model.Subject;
 import com.example.response.BaseResponse;
 import com.example.response.Response;
 import com.example.service.SubjectService;
@@ -58,10 +59,10 @@ public class SubjectController {
     @PostMapping
     public ResponseEntity<? extends Response<SubjectDto>> saveSubject(@RequestBody
                                                                       @Valid SubjectDto subjectDto){
-        subjectService.saveSubject(subjectDto);
+        SubjectDto savedSubject = subjectService.saveSubject(subjectDto);
         BaseResponse<SubjectDto> subjectDtoBaseResponse = new BaseResponse<>();
         return subjectDtoBaseResponse
-                .buildResponseEntity(HttpStatus.CREATED, "Subject saved successfully", subjectDto);
+                .buildResponseEntity(HttpStatus.CREATED, "Subject saved successfully", savedSubject);
     }
 
     /**

@@ -7,10 +7,12 @@ import com.example.model.status.ModelStatus;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Builder
 @AllArgsConstructor
+@NoArgsConstructor
 @Getter
 @Table(name = "teachers")
 public class Teacher {

@@ -58,6 +58,20 @@ public interface SubjectService {
     (final String subjectName, final int page, final int size, final String[] sort);
 
     /**
+     * Evaluate if subject exists by subjectName.
+     * @param subjectName String
+     * @return  boolean
+     */
+    boolean subjectExists(String subjectName);
+
+
+    /**
+     * Update Subject.
+     * @param subject
+     */
+    void updateSubject(Subject subject);
+
+    /**
      * Util method for mapping Dtos to Subject entity.
      * @param subjectDto Dto to convert
      * @return Subject instance

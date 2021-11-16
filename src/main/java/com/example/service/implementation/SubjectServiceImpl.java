@@ -49,8 +49,9 @@ public class SubjectServiceImpl implements SubjectService {
     public SubjectDto saveSubject(SubjectDto subjectDto){
         Subject subject = Subject
                 .buildFromDto(subjectMapper.dtoToSubject(subjectDto));
-        this.subjectRepository.save(subject);
-        return subjectDto;
+        subjectRepository.save(subject);
+        return subjectMapper.toSubjectDto(subject);
+
     }
 
     @Override
@@ -65,7 +66,7 @@ public class SubjectServiceImpl implements SubjectService {
 
     @Override
     public SubjectDto findSubjectByName(final String subjectName){
-        Subject subject = subjectRepository.findSubjectBySubjectName(subjectName)
+        Subject subject = subjectRepository.findBySubjectNameContainingIgnoreCase(subjectName)
                 .orElseThrow(() -> SubjectNotFoundException
                         .buildSubjectNotFoundExceptionForField("subjectName", subjectName));
         return subjectMapper
@@ -77,6 +78,16 @@ public class SubjectServiceImpl implements SubjectService {
     public void deleteSubjectById(final String subjectId){
         Subject subject = subjectMapper.dtoToSubject(findSubjectById(subjectId));
         subject.setSubjectStatus(ModelStatus.INACTIVE);
+        subjectRepository.save(subject);
+    }
+
+    @Override
+    public boolean subjectExists(String subjectName) {
+        return subjectRepository.existsBySubjectNameIgnoreCase(subjectName);
+    }
+
+    @Override
+    public void updateSubject(Subject subject){
         subjectRepository.save(subject);
     }
 

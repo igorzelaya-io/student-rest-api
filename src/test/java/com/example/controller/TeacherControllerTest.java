@@ -67,6 +67,8 @@ public class TeacherControllerTest extends AbstractTestController{
 
     private final static String TEACHER_ID = UUID.randomUUID().toString();
 
+    private static final String SUBJECT_ID = UUID.randomUUID().toString();
+
     private final static String TEACHER_NAME = "Igor Zelaya";
 
     @Before
@@ -81,6 +83,7 @@ public class TeacherControllerTest extends AbstractTestController{
         subjectDto =
                 SubjectDto
                         .builder()
+                        .subjectId(SUBJECT_ID)
                         .subjectName("Math")
                         .build();
     }
@@ -148,8 +151,24 @@ public class TeacherControllerTest extends AbstractTestController{
                 .andExpect(status().isBadRequest());
     }
 
-    public void shouldAddSubjectToTeacher(){
+    @Test
+    public void shouldAddSubjectToTeacher() throws Exception {
+        doNothing()
+                .when(teacherService)
+                .addSubjectToTeacher(TEACHER_ID, subjectDto);
 
+        doRequestAddSubjectToTeacher(subjectDto)
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    public void shouldRemoveSubjectFromTeacher() throws Exception {
+        doNothing()
+                .when(teacherService)
+                .removeSubjectFromTeacher(TEACHER_ID, SUBJECT_ID);
+
+        doRequestRemoveSubjectFromTeacher()
+                .andExpect(status().isOk());
     }
 
     private ResultActions doRequestGetPaginatedSortedTeachers() throws Exception {
@@ -198,6 +217,14 @@ public class TeacherControllerTest extends AbstractTestController{
         return getMockMvc()
                 .perform(post(baseUri + "/{teacherId}/subjects", TEACHER_ID)
                         .content(getObjectMapper().writeValueAsString(subjectDto))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .accept(MediaType.APPLICATION_JSON));
+    }
+
+    private ResultActions doRequestRemoveSubjectFromTeacher() throws Exception {
+        return getMockMvc()
+                .perform(delete(baseUri + "/{teacherId}/subjects/{subjectId}"
+                , TEACHER_ID, SUBJECT_ID)
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON));
     }

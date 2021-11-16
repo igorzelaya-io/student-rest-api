@@ -11,6 +11,8 @@ import com.example.model.status.ModelStatus;
 import com.example.repository.TeacherRepository;
 import com.example.service.SubjectService;
 import com.example.service.TeacherService;
+import com.example.utils.MessageKey;
+import com.example.utils.Messages;
 import com.example.utils.SortingPagingUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.*;
@@ -35,6 +37,8 @@ public class TeacherServiceImpl implements TeacherService {
 	private final SubjectMapper subjectMapper;
 
 	private final SortingPagingUtils sortingPagingUtils;
+
+	private final Messages messages;
 
 	@Override
 	public Page<TeacherDto> findPaginatedSortedTeachers(final String teacherName, final int page, final int size, final String[] sort) {
@@ -87,7 +91,15 @@ public class TeacherServiceImpl implements TeacherService {
 	public void addSubjectToTeacher(final String teacherId, SubjectDto subjectDto) {
 		Teacher teacher = teacherMapper
 				.dtoToTeacher(findTeacherById(teacherId));
-		Subject subject = Subject.buildFromDto(subjectMapper.dtoToSubject(subjectDto));
+		Subject subject = null;
+		if(subjectService.subjectExists(subjectDto.getSubjectName())){
+			subject = subjectMapper
+					.dtoToSubject(subjectService
+							.findSubjectByName(subjectDto.getSubjectName()));
+		}
+		else{
+			subject = Subject.buildFromDto(subjectMapper.dtoToSubject(subjectDto));
+		}
 		teacher.addSubject(subject);
 		teacherRepository.save(teacher);
 	}
@@ -96,9 +108,16 @@ public class TeacherServiceImpl implements TeacherService {
 	public void removeSubjectFromTeacher(final String teacherId, final String subjectId){
 		Teacher teacher = teacherMapper
 				.dtoToTeacher(findTeacherById(teacherId));
-		Subject subject = subjectMapper.dtoToSubject(subjectService.findSubjectById(subjectId));
-		teacher.removeSubject(subject);
-		teacherRepository.save(teacher);
+		Subject subject = subjectMapper
+				.dtoToSubject(subjectService.findSubjectById(subjectId));
+		if(subject.getTeacher() != null && subject.getTeacher().getTeacherId().equals(teacherId)){
+			teacher.removeSubject(subject);
+			teacherRepository.save(teacher);
+			subjectService.updateSubject(subject);
+			return;
+		}
+		throw new IllegalArgumentException(messages
+				.getMessage(MessageKey.INVALID_SUBJECT.getKey()));
 	}
 
 	@Override
