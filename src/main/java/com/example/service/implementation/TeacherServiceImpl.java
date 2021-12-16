@@ -42,7 +42,9 @@ public class TeacherServiceImpl implements TeacherService {
 	private final Messages messages;
 
 	@Override
-	public Page<TeacherDto> findPaginatedSortedTeachers(final String teacherName, final int page, final int size, final String[] sort) {
+	public Page<TeacherDto> findPaginatedSortedTeachers(final String teacherName, final int page,
+														final int size, final String[] sort) {
+
 		List<Sort.Order> orders = sortingPagingUtils.getSortOrders(sort);
 		Pageable pageable = PageRequest.of(page, size, Sort.by(orders));
 		List<TeacherDto> teacherDtos;
@@ -89,7 +91,7 @@ public class TeacherServiceImpl implements TeacherService {
 	}
 
 	@Override
-	public void addSubjectToTeacher(final String teacherId, SubjectDto subjectDto) {
+	public void addSubjectToTeacher(final String teacherId, final SubjectDto subjectDto) {
 		Teacher teacher = teacherMapper
 				.dtoToTeacher(findTeacherById(teacherId));
 		Subject subject = null;
@@ -114,18 +116,18 @@ public class TeacherServiceImpl implements TeacherService {
 		Subject subject = subjectMapper
 				.dtoToSubject(subjectService.findSubjectById(subjectId));
 
-		if(Objects.nonNull(subject.getTeacher()) && subject.getTeacher().getTeacherId().equals(teacherId)){
+		if(Objects.nonNull(subject.getTeacher()) && subject.getTeacher().getTeacherId().equals(teacher.getTeacherId())){
 			teacher.removeSubject(subject);
 			teacherRepository.save(teacher);
 			subjectService.updateSubject(subject);
 			return;
 		}
-		throw new IllegalArgumentException(messages
-				.getMessage(MessageKey.INVALID_SUBJECT.getKey()));
+		throw new IllegalArgumentException(String.format(messages
+				.getMessage(MessageKey.TEACHER_INVALID_SUBJECT.getKey()), subjectId));
 	}
 
 	@Override
-	public void deleteTeacherById(String teacherId) {
+	public void deleteTeacherById(final String teacherId) {
 		Teacher teacher = teacherMapper
 				.dtoToTeacher(findTeacherById(teacherId));
 		teacher.setTeacherStatus(ModelStatus.INACTIVE);
@@ -139,7 +141,7 @@ public class TeacherServiceImpl implements TeacherService {
 	 * @param queryFieldValue String
 	 * @return Teacher
 	 */
-	private Teacher isActiveTeacher(Teacher teacher, String queryField, String queryFieldValue){
+	private Teacher isActiveTeacher(final Teacher teacher, final String queryField, final String queryFieldValue){
 		if(teacher.getTeacherStatus().getStatusCode() == 0){
 			return teacher;
 		}

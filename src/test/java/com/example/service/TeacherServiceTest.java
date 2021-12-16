@@ -119,6 +119,7 @@ public class TeacherServiceTest {
                 .builder()
                 .subjectId(SUBJECT_ID)
                 .subjectName(SUBJECT_NAME)
+                .subjectStatus(ModelStatus.ACTIVE)
                 .teacher(null)
                 .subjectStudents(new ArrayList<>())
                 .build();
@@ -238,10 +239,6 @@ public class TeacherServiceTest {
                 .when(subjectRepository)
                         .existsBySubjectNameIgnoreCase(SUBJECT_NAME);
 
-        doReturn(null)
-                .when(teacherRepository)
-                        .save(teacher);
-
         teacherService.addSubjectToTeacher(teacher.getTeacherId(), subjectDto);
 
         teacher.addSubject(subject);
@@ -252,13 +249,51 @@ public class TeacherServiceTest {
     }
 
     @Test
-    public void shouldRemoveSubjectFromTeacher(){
-        when(teacherService.findTeacherById(TEACHER_ID))
-                .thenReturn(teacherDto);
+    public void shouldRemoveSubjectFromTeacher_ifSuccess(){
 
-        when(subjectService.findSubjectById(SUBJECT_ID))
-                .thenReturn(subjectDto);
+        teacher.addSubject(subject);
 
+        doReturn(Optional.of(teacher))
+                .when(teacherRepository)
+                        .findById(TEACHER_ID);
 
+        doReturn(Optional.of(subject))
+                .when(subjectRepository)
+                        .findById(SUBJECT_ID);
+
+        teacherService.removeSubjectFromTeacher(TEACHER_ID, SUBJECT_ID);
+
+        teacher.removeSubject(subject);
+
+        assertThat(subject).isNotIn(teacher.getTeacherSubjects());
+        assertThat(subject.getTeacher()).isNull();
+    }
+
+    @Test
+    public void whenInvalidSubject_throwException(){
+        Subject fakeSubject = Subject
+                .builder()
+                .subjectStatus(ModelStatus.ACTIVE)
+                .subjectId(SUBJECT_ID)
+                .teacher(null)
+                .subjectName("English")
+                .build();
+
+        doReturn(Optional.of(teacher))
+                .when(teacherRepository)
+                .findById(TEACHER_ID);
+
+        doReturn(Optional.of(fakeSubject))
+                .when(subjectRepository)
+                .findById(SUBJECT_ID);
+
+        try{
+            teacherService.removeSubjectFromTeacher(TEACHER_ID, SUBJECT_ID);
+            fail("Should throw invalid exception");
+        }
+        catch (Exception e){
+            assertThat(e).isInstanceOf(IllegalArgumentException.class);
+            assertThat(e.getMessage()).isEqualTo(messages.getMessage(MessageKey.TEACHER_INVALID_SUBJECT.getKey()));
+        }
     }
 }

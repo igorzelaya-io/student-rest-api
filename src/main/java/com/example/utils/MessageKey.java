@@ -10,7 +10,10 @@ public enum MessageKey {
     TEACHER_NOT_FOUND("teacher-not-found"),
 
     //Teacher Service
-    INVALID_SUBJECT("teacher-subject-invalid");
+    TEACHER_INVALID_SUBJECT("teacher-subject-invalid"),
+
+    //Student Service
+    INVALID_STUDENT_SUBJECT("student-subject-invalid");
 
     public final String key;
 

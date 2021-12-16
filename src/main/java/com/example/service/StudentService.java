@@ -1,6 +1,7 @@
 package com.example.service;
 
 import com.example.dto.StudentDto;
+import com.example.dto.SubjectDto;
 import com.example.exception.StudentNotFoundException;
 import org.springframework.data.domain.Page;
 
@@ -50,5 +51,17 @@ public interface StudentService {
      */
     Page<StudentDto> findPaginatedSortedStudents(String studentName, int page, int size, String[] sort);
 
+    /**
+     * Add a Subject to student's subjectList
+     * @param studentId
+     * @param subjectDto
+     */
+    void addSubjectToStudent(String studentId, SubjectDto subjectDto);
 
+    /**
+     *
+     * @param studentId
+     * @param subjectId
+     */
+    void removeSubjectFromStudent(String studentId, String subjectId);
 }

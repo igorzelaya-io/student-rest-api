@@ -56,6 +56,15 @@ public class Student {
 		return student;
 	}
 
+	/**
+	 * Add Subject to student list and vice versa.
+	 * @param subject Subject
+	 */
+	public void addSubject(Subject subject){
+		this.studentSubjects.add(subject);
+		subject.getSubjectStudents().add(this);
+	}
+
 	@Override
 	public boolean equals(Object o) {
 		if(this == o) return true;

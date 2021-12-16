@@ -5,9 +5,12 @@ import com.example.dto.StudentDto;
 import com.example.exception.ResourceNotFoundException;
 import com.example.model.Student;
 import com.example.model.mapper.StudentMapper;
+import com.example.model.mapper.SubjectMapper;
 import com.example.model.status.ModelStatus;
 import com.example.repository.StudentRepository;
+import com.example.repository.SubjectRepository;
 import com.example.service.implementation.StudentServiceImpl;
+import com.example.service.implementation.SubjectServiceImpl;
 import com.example.utils.MessageKey;
 import com.example.utils.Messages;
 import com.example.utils.SortingPagingUtils;
@@ -43,6 +46,12 @@ public class StudentServiceTest {
 
     private StudentService studentService;
 
+    private SubjectMapper subjectMapper;
+
+    private SubjectRepository subjectRepository;
+
+    private SubjectService subjectService;
+
     private StudentMapper studentMapper;
 
     private StudentDto studentDto;
@@ -62,7 +71,11 @@ public class StudentServiceTest {
 
         studentRepository = Mockito.mock(StudentRepository.class);
         studentMapper = Mappers.getMapper(StudentMapper.class);
-        studentService = new StudentServiceImpl(studentRepository, studentMapper, sortingPagingUtils);
+        subjectMapper = Mappers.getMapper(SubjectMapper.class);
+        subjectRepository = Mockito.mock(SubjectRepository.class);
+        subjectService = new SubjectServiceImpl(subjectMapper, subjectRepository, sortingPagingUtils);
+        studentService = new StudentServiceImpl(studentRepository, studentMapper, subjectMapper,
+                                                subjectService, sortingPagingUtils, messages);
 
         STUDENT_NOT_FOUND  = messages
                 .getMessage(MessageKey.STUDENT_NOT_FOUND.getKey());

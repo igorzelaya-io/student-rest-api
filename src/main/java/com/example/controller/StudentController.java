@@ -2,6 +2,7 @@ package com.example.controller;
 
 import javax.validation.Valid;
 import com.example.dto.StudentDto;
+import com.example.dto.SubjectDto;
 import com.example.dto.openapi.PageResponseStudentDto;
 import com.example.dto.openapi.ResponseStudentDto;
 import com.example.dto.pageable.PageResponse;
@@ -142,5 +143,12 @@ public class StudentController {
 						.append(studentId)
 						.append(" was deleted.").toString(), studentId);
 	}
-	
+
+	@PostMapping(value = "/{studentId}/subjects")
+	public ResponseEntity<? extends Response<String>> addSubjectToStudent(@PathVariable("studentId")final String studentId,
+																		  @RequestBody @Valid SubjectDto subjectDto){
+		BaseResponse<String> response = new BaseResponse<>();
+		studentService.addSubjectToStudent(studentId, subjectDto);
+		return response.buildResponseEntity(HttpStatus.OK, "Subject added successfully to student.", studentId);
+	}
 }
