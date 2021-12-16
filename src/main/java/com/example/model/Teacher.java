@@ -30,7 +30,8 @@ public class Teacher {
 	@Column(name = "teacherAge")
 	private Integer teacherAge;
 
-	@OneToMany(mappedBy = "teacher", cascade = { CascadeType.REFRESH, CascadeType.MERGE, CascadeType.PERSIST})
+	@OneToMany(mappedBy = "teacher",
+			cascade = { CascadeType.REFRESH, CascadeType.MERGE, CascadeType.PERSIST})
 	private List<Subject> teacherSubjects;
 
 	@Column(name = "teacher_status")

@@ -18,6 +18,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * Service implementation class for Teacher entity.
@@ -92,12 +93,12 @@ public class TeacherServiceImpl implements TeacherService {
 		Teacher teacher = teacherMapper
 				.dtoToTeacher(findTeacherById(teacherId));
 		Subject subject = null;
-		if(subjectService.subjectExists(subjectDto.getSubjectName())){
+
+		if(subjectService.subjectExists(subjectDto.getSubjectName())) {
 			subject = subjectMapper
 					.dtoToSubject(subjectService
 							.findSubjectByName(subjectDto.getSubjectName()));
-		}
-		else{
+		} else {
 			subject = Subject.buildFromDto(subjectMapper.dtoToSubject(subjectDto));
 		}
 		teacher.addSubject(subject);
@@ -105,12 +106,15 @@ public class TeacherServiceImpl implements TeacherService {
 	}
 
 	@Override
-	public void removeSubjectFromTeacher(final String teacherId, final String subjectId){
+	public void removeSubjectFromTeacher
+			(final String teacherId, final String subjectId){
+
 		Teacher teacher = teacherMapper
 				.dtoToTeacher(findTeacherById(teacherId));
 		Subject subject = subjectMapper
 				.dtoToSubject(subjectService.findSubjectById(subjectId));
-		if(subject.getTeacher() != null && subject.getTeacher().getTeacherId().equals(teacherId)){
+
+		if(Objects.nonNull(subject.getTeacher()) && subject.getTeacher().getTeacherId().equals(teacherId)){
 			teacher.removeSubject(subject);
 			teacherRepository.save(teacher);
 			subjectService.updateSubject(subject);
