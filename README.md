@@ -1,2 +1,2 @@
 # student-rest-api
-Student API for management of Spring
+REST API to simulate management of Students.
