@@ -27,7 +27,7 @@ public class Student {
 	@Column(name = "student_name", nullable = false)
 	private String studentName;
 
-	@Column(name = "student_email")
+	@Column(name = "student_email", nullable = false)
 	private String studentEmail;
 
 	@Column(name = "student_age", nullable = false)
@@ -40,6 +40,7 @@ public class Student {
 		joinColumns = @JoinColumn(name = "student_id"),
 		inverseJoinColumns = @JoinColumn(name = "subject_id")
 	)
+	@Builder.Default
 	private List<Subject> studentSubjects = new ArrayList<>();
 
 	@Column(name = "student_status", nullable = false)

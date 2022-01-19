@@ -1,5 +1,6 @@
 package com.example.model;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 import javax.persistence.CascadeType;
@@ -35,7 +36,8 @@ public class Subject {
 	@ManyToMany(mappedBy = "studentSubjects",
 				fetch = FetchType.EAGER,
 				cascade = { CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH })
-	private List<Student> subjectStudents;
+	@Builder.Default
+	private List<Student> subjectStudents = new ArrayList<>();
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "teacher_id")

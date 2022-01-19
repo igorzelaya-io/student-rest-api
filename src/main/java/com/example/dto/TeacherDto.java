@@ -50,6 +50,7 @@ public class TeacherDto {
     private ModelStatus teacherStatus;
 
     @JsonProperty("teacherSubjects")
+    @Builder.Default
     private List<Subject> teacherSubjects = new ArrayList<>();
 
 }
