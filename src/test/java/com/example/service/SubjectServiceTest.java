@@ -78,7 +78,7 @@ public class SubjectServiceTest {
                 .build();
 
         SUBJECT_NOT_FOUND = messages
-                .getMessage(MessageKey.TEACHER_NOT_FOUND.getKey());
+                .getMessage(MessageKey.SUBJECT_NOT_FOUND.getKey());
 
     }
 
@@ -105,8 +105,8 @@ public class SubjectServiceTest {
                 .append(params).toString();
 
         doReturn(Optional.empty())
-                .when(subjectService)
-                .findSubjectById(SUBJECT_ID);
+                .when(subjectRepository)
+                .findById(SUBJECT_ID);
 
         try{
             SubjectDto subjectDto = subjectService.findSubjectById(SUBJECT_ID);

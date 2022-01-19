@@ -271,7 +271,11 @@ public class TeacherServiceTest {
 
     @Test
     public void whenInvalidSubject_throwException(){
-        Subject fakeSubject = Subject
+
+        final String EX_MESSAGE = String.format(messages
+                .getMessage(MessageKey.TEACHER_INVALID_SUBJECT.getKey()), SUBJECT_ID);
+
+        final Subject fakeSubject = Subject
                 .builder()
                 .subjectStatus(ModelStatus.ACTIVE)
                 .subjectId(SUBJECT_ID)
@@ -293,7 +297,7 @@ public class TeacherServiceTest {
         }
         catch (Exception e){
             assertThat(e).isInstanceOf(IllegalArgumentException.class);
-            assertThat(e.getMessage()).isEqualTo(messages.getMessage(MessageKey.TEACHER_INVALID_SUBJECT.getKey()));
+            assertThat(e.getMessage()).isEqualTo(EX_MESSAGE);
         }
     }
 }
