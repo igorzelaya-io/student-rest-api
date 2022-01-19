@@ -11,5 +11,5 @@ spring:
   datasource:
     url: jdbc:mysql://localhost:3306/student_db
     username: root
-    password: Lmvguru12!
+    password: helloworld
     driver-class-name: com.mysql.cj.jdbc.Driver

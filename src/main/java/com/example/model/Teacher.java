@@ -1,5 +1,6 @@
 package com.example.model;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 import javax.persistence.*;
@@ -32,7 +33,8 @@ public class Teacher {
 
 	@OneToMany(mappedBy = "teacher",
 			cascade = { CascadeType.REFRESH, CascadeType.MERGE, CascadeType.PERSIST})
-	private List<Subject> teacherSubjects;
+	@Builder.Default
+	private List<Subject> teacherSubjects = new ArrayList<>();
 
 	@Column(name = "teacher_status")
 	@Enumerated(EnumType.ORDINAL)

@@ -94,8 +94,7 @@ public class TeacherServiceImpl implements TeacherService {
 	public void addSubjectToTeacher(final String teacherId, final SubjectDto subjectDto) {
 		Teacher teacher = teacherMapper
 				.dtoToTeacher(findTeacherById(teacherId));
-		Subject subject = null;
-
+		Subject subject;
 		if(subjectService.subjectExists(subjectDto.getSubjectName())) {
 			subject = subjectMapper
 					.dtoToSubject(subjectService

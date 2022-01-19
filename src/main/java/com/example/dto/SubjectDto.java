@@ -13,6 +13,7 @@ import lombok.NoArgsConstructor;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -40,7 +41,8 @@ public class SubjectDto {
     private ModelStatus subjectStatus;
 
     @JsonProperty("subjectStudents")
-    private List<Student> subjectStudents;
+    @Builder.Default
+    private List<Student> subjectStudents = new ArrayList<>();
 
     @JsonProperty("teacher")
     private Teacher teacher;
