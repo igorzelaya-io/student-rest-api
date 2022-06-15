@@ -76,7 +76,9 @@ public class StudentController {
 			, content = { @Content(schema = @Schema(implementation = ErrorResponse.class))})}
 	)
 	@PostMapping
-	public ResponseEntity<? extends Response<StudentDto>> saveStudent(@RequestBody @Valid StudentDto studentDto) {
+	public ResponseEntity<? extends Response<StudentDto>> saveStudent(
+			@RequestBody @Valid StudentDto studentDto) {
+
 		StudentDto savedStudent = studentService.saveStudent(studentDto);
 		BaseResponse<StudentDto> studentBaseResponse = new BaseResponse<>();
 		return studentBaseResponse
@@ -97,8 +99,11 @@ public class StudentController {
 	, content = { @Content(schema = @Schema(implementation = ErrorResponse.class))})
 	})
 	@GetMapping(value = "/{studentId}")
-	public ResponseEntity<? extends StudentDto> findByStudentId(@PathVariable final String studentId) {
-		StudentDto retrievedStudent = studentService.findStudentById(studentId);
+	public ResponseEntity<? extends StudentDto> findByStudentId(
+			@PathVariable final String studentId,
+			@RequestParam(required = false, defaultValue = "0")Integer statusCode) {
+
+		StudentDto retrievedStudent = studentService.findStudentById(studentId, statusCode);
 		return new ResponseEntity<>(retrievedStudent, HttpStatus.OK);
 	}
 
@@ -116,8 +121,11 @@ public class StudentController {
 			, content = { @Content(schema = @Schema(implementation = ErrorResponse.class))})
 	})
 	@GetMapping(params = "studentName")
-	public ResponseEntity<? extends StudentDto> findStudentByName(@RequestParam("studentName") final String studentName){
-		StudentDto retrievedStudent = studentService.findStudentByName(studentName);
+	public ResponseEntity<? extends StudentDto> findStudentByName(
+			@RequestParam("studentName") final String studentName,
+		    @RequestParam(required = false, defaultValue = "0") final Integer statusCode){
+
+		StudentDto retrievedStudent = studentService.findStudentByName(studentName, statusCode);
 		return new ResponseEntity<>(retrievedStudent, HttpStatus.OK);
 	}
 
@@ -144,11 +152,19 @@ public class StudentController {
 						.append(" was deleted.").toString(), studentId);
 	}
 
+	@PostMapping(value = "/{studentId}/subjects/{subjectId}")
+	public ResponseEntity<? extends Response<String>> addSubjectToStudent(@PathVariable("studentId")final String studentId,
+																		  @PathVariable("subjectId")final String subjectId){
+		BaseResponse<String> response = new BaseResponse<>();
+		studentService.addSubjectToStudent(studentId, subjectId, null);
+		return response.buildResponseEntity(HttpStatus.OK, "Subject added successfully to student.", null);
+	}
+
 	@PostMapping(value = "/{studentId}/subjects")
 	public ResponseEntity<? extends Response<String>> addSubjectToStudent(@PathVariable("studentId")final String studentId,
 																		  @RequestBody @Valid SubjectDto subjectDto){
 		BaseResponse<String> response = new BaseResponse<>();
-		studentService.addSubjectToStudent(studentId, subjectDto);
+		studentService.addSubjectToStudent(studentId, null, subjectDto);
 		return response.buildResponseEntity(HttpStatus.OK, "Subject added successfully to student.", studentId);
 	}
 }

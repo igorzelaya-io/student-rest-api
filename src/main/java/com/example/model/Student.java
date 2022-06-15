@@ -49,7 +49,7 @@ public class Student {
 
 	/**
 	 * Adds fields which are not populated by Student DTO.
-	 * @return
+	 * @return Student
 	 */
 	public static Student buildFromDto(Student student){
 		student.setStudentId(UUID.randomUUID().toString());

@@ -46,13 +46,9 @@ public class StudentServiceTest {
 
     private StudentService studentService;
 
-    private SubjectMapper subjectMapper;
-
     private SubjectRepository subjectRepository;
 
     private SubjectService subjectService;
-
-    private StudentMapper studentMapper;
 
     private StudentDto studentDto;
 
@@ -70,12 +66,8 @@ public class StudentServiceTest {
     public void init() {
 
         studentRepository = Mockito.mock(StudentRepository.class);
-        studentMapper = Mappers.getMapper(StudentMapper.class);
-        subjectMapper = Mappers.getMapper(SubjectMapper.class);
         subjectRepository = Mockito.mock(SubjectRepository.class);
-        subjectService = new SubjectServiceImpl(subjectMapper, subjectRepository, sortingPagingUtils);
-        studentService = new StudentServiceImpl(studentRepository, studentMapper, subjectMapper,
-                                                subjectService, sortingPagingUtils, messages);
+        studentService = new StudentServiceImpl(studentRepository, subjectRepository, messages, sortingPagingUtils);
 
         STUDENT_NOT_FOUND  = messages
                 .getMessage(MessageKey.STUDENT_NOT_FOUND.getKey());
@@ -103,10 +95,10 @@ public class StudentServiceTest {
     @Test
     public void shouldReturnStudentById() {
         when(studentRepository
-                .findById(STUDENT_ID))
+                .findByNameAndStatusContaining(STUDENT_ID, 0))
                 .thenReturn(Optional.of(student));
 
-        StudentDto studentDto = studentService.findStudentById(STUDENT_ID);
+        StudentDto studentDto = studentService.findStudentById(STUDENT_ID, 0);
 
         Assertions.assertThat(studentDto).isNotNull();
         Assertions.assertThat(studentDto.getStudentId()).isEqualTo(STUDENT_ID);
@@ -126,7 +118,7 @@ public class StudentServiceTest {
         when(studentRepository.findById(STUDENT_ID))
                 .thenReturn(Optional.empty());
         try {
-            StudentDto studentDto = studentService.findStudentById(STUDENT_ID);
+            StudentDto studentDto = studentService.findStudentById(STUDENT_ID, 0);
             fail("Exception must be thrown");
         } catch (Exception ex) {
             assertThat(ex).isInstanceOf(ResourceNotFoundException.class);
@@ -137,10 +129,10 @@ public class StudentServiceTest {
     @Test
     public void shouldReturnStudentByName() {
         when(studentRepository
-                .findByStudentName(STUDENT_NAME))
+                .findByNameAndStatusContaining(STUDENT_NAME, 0))
                 .thenReturn(Optional.of(student));
 
-        StudentDto studentDto = studentService.findStudentByName(STUDENT_NAME);
+        StudentDto studentDto = studentService.findStudentByName(STUDENT_NAME, 0);
         Assertions.assertThat(studentDto).isNotNull();
         Assertions.assertThat(studentDto.getStudentId()).isEqualTo(STUDENT_ID);
         Assertions.assertThat(studentDto.getStudentName()).isEqualTo(student.getStudentName());
@@ -156,11 +148,12 @@ public class StudentServiceTest {
                 .append(" ")
                 .append(params).toString();
 
-        when(studentRepository.findByStudentName(STUDENT_NAME))
+        when(studentRepository.findByNameAndStatusContaining(STUDENT_NAME, 0))
                 .thenReturn(Optional.empty());
 
         try {
-            StudentDto studentDto = studentService.findStudentByName(STUDENT_NAME);
+            StudentDto studentDto = studentService.findStudentByName(STUDENT_NAME, 0);
+            fail("Should throw exception.");
         } catch (Exception e) {
             assertThat(e).isInstanceOf(ResourceNotFoundException.class);
             assertThat(e.getMessage()).isEqualTo(EX_MESSAGE);

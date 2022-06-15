@@ -90,7 +90,7 @@ public class StudentControllerTest extends AbstractTestController {
 
     @Test
     public void shouldGetStudentById() throws Exception {
-        when(studentService.findStudentById(STUDENT_ID))
+        when(studentService.findStudentById(STUDENT_ID, 0))
                 .thenReturn(studentDto);
 
         doRequestGetStudentById()
@@ -100,7 +100,7 @@ public class StudentControllerTest extends AbstractTestController {
 
     @Test
     public void shouldGetStudentByName() throws Exception {
-        when(studentService.findStudentByName(studentDto.getStudentName()))
+        when(studentService.findStudentByName(studentDto.getStudentName(), 0))
                 .thenReturn(studentDto);
 
         doRequestGetStudentByName(studentDto.getStudentName())

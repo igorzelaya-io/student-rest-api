@@ -6,6 +6,8 @@ import com.example.model.Student;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -17,11 +19,24 @@ import org.springframework.stereotype.Repository;
 public interface StudentRepository extends JpaRepository<Student, String>{
 
 	/**
-	 * Find Student by its name.
+	 * Find Student by its name and given status.
+	 * @param studentId StudentId
+	 * @param statusCode statusCode
+	 * @return
+	 */
+	@Query("FROM Student s WHERE s.statusCode = :status AND s.studentId = :studentId")
+	Optional<Student> findByIdAndStatus(@Param("studentId") final String studentId,
+										@Param("status") final int statusCode);
+
+	/**
+	 * Find Student by its name and given status.
 	 * @param studentName String
+	 * @param statusCode ACTIVE(0) INACTIVE(1)
 	 * @return Optional Student
 	 */
-	Optional<Student> findByStudentName(String studentName);
+	@Query("FROM Student s WHERE s.statusCode = :status AND s.studentName LIKE %:studentName%")
+	Optional<Student> findByNameAndStatusContaining(@Param("studentName") final String studentName,
+										  @Param("status") final int statusCode);
 
 	/**
 	 * Find Paginated students by name.

@@ -36,8 +36,9 @@ public class StudentRepositoryTest {
     @Ignore
     public void shouldFetchStudentByName(){
         initRecords();
-        Optional<Student> retrievedStudent = studentRepository.findByStudentName(STUDENT_NAME);
-        Assertions.assertTrue(!retrievedStudent.isEmpty());
+        Optional<Student> retrievedStudent = studentRepository
+                .findByNameAndStatusContaining(STUDENT_NAME, 0);
+        Assertions.assertTrue(retrievedStudent.isPresent());
         Assertions.assertEquals(retrievedStudent.get(), student);
     }
 

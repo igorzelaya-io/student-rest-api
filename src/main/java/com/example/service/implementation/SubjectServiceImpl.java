@@ -8,9 +8,11 @@ import com.example.repository.SubjectRepository;
 import com.example.service.SubjectService;
 import com.example.utils.SortingPagingUtils;
 import lombok.RequiredArgsConstructor;
+import org.mapstruct.factory.Mappers;
 import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * Service class for Subject class
@@ -27,13 +29,24 @@ public class SubjectServiceImpl implements SubjectService {
 
     private final SortingPagingUtils sortingPagingUtils;
 
+    /**
+     * Optional constructor for SubjectService.
+     * @param subjectRepository
+     * @param sortingPagingUtils
+     */
+    public SubjectServiceImpl(SubjectRepository subjectRepository, SortingPagingUtils sortingPagingUtils){
+        this.subjectMapper = Mappers.getMapper(SubjectMapper.class);
+        this.subjectRepository = subjectRepository;
+        this.sortingPagingUtils = sortingPagingUtils;
+    }
+
     @Override
     public Page<SubjectDto> findBySubjectNameContaining
             (final String subjectName, final int page, final int size, final String[] sort) {
         List<Sort.Order> orders = sortingPagingUtils.getSortOrders(sort);
         Pageable pageable = PageRequest.of(page, size, Sort.by(orders));
         List<SubjectDto> subjects;
-        if(subjectName == null){
+        if(Objects.isNull(subjectName)){
             subjects = subjectMapper
                     .subjectsToDtos(subjectRepository.findAll(pageable).toList());
         }
@@ -55,35 +68,30 @@ public class SubjectServiceImpl implements SubjectService {
     }
 
     @Override
-    public SubjectDto findSubjectById(final String subjectId){
-        Subject subject = subjectRepository.findById(subjectId)
+    public SubjectDto findSubjectById(final String subjectId, final int statusCode){
+        Subject subject = subjectRepository.findByIdAndStatus(subjectId, statusCode)
                 .orElseThrow(() -> SubjectNotFoundException
-                        .buildSubjectNotFoundExceptionForId(subjectId));
+                        .buildExceptionForId(subjectId));
         return subjectMapper
-                .toSubjectDto(
-                        isActiveSubject(subject, "subjectId", subjectId));
+                .toSubjectDto(subject);
     }
 
     @Override
-    public SubjectDto findSubjectByName(final String subjectName){
-        Subject subject = subjectRepository.findBySubjectNameContainingIgnoreCase(subjectName)
+    public SubjectDto findSubjectByName(final String subjectName, final int statusCode) {
+        Subject subject = subjectRepository.findBySubjectNameContaining(subjectName, 0)
                 .orElseThrow(() -> SubjectNotFoundException
-                        .buildSubjectNotFoundExceptionForField("subjectName", subjectName));
+                        .buildExceptionForField("subjectName", subjectName));
         return subjectMapper
-                .toSubjectDto(
-                        isActiveSubject(subject, "subjectName", subjectName));
+                .toSubjectDto(subject);
     }
 
     @Override
     public void deleteSubjectById(final String subjectId){
-        Subject subject = subjectMapper.dtoToSubject(findSubjectById(subjectId));
+        Subject subject = subjectMapper
+                .dtoToSubject(findSubjectById(
+                        subjectId, ModelStatus.ACTIVE.getStatusCode()));
         subject.setSubjectStatus(ModelStatus.INACTIVE);
         subjectRepository.save(subject);
-    }
-
-    @Override
-    public boolean subjectExists(String subjectName) {
-        return subjectRepository.existsBySubjectNameIgnoreCase(subjectName);
     }
 
     @Override
@@ -91,20 +99,9 @@ public class SubjectServiceImpl implements SubjectService {
         subjectRepository.save(subject);
     }
 
-    /**
-     * Return subject if status code is ACTIVE.
-     * @param subject Subject
-     * @param queryField String
-     * @param fieldValue String
-     * @return Subject
-     * @throws SubjectNotFoundException ex
-     */
-    private Subject isActiveSubject(Subject subject, String queryField, String fieldValue){
-        if(subject.getSubjectStatus().getStatusCode() == 0){
-            return subject;
-        }
-        throw SubjectNotFoundException
-                .buildSubjectNotFoundExceptionForField(queryField, fieldValue);
+    @Override
+    public boolean subjectExists(String subjectName) {
+        return subjectRepository.existsBySubjectNameIgnoreCase(subjectName);
     }
 
 }

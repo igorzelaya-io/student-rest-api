@@ -16,7 +16,7 @@ public class StudentNotFoundException extends ResourceNotFoundException {
      * @return
      */
     public static ResourceNotFoundException
-            buildStudentNotFoundExceptionForField(String field, String fieldValue){
+            buildExceptionForField(String field, String fieldValue){
         return resourceNotFoundExceptionOf(Student.class, field, fieldValue);
     }
 
@@ -26,7 +26,7 @@ public class StudentNotFoundException extends ResourceNotFoundException {
      * @return
      */
     public static ResourceNotFoundException
-            buildStudentNotFoundExceptionForId(String studentId){
+            buildExceptionForId(String studentId){
         return resourceNotFoundExceptionOf(Student.class, "studentId", studentId);
     }
 

@@ -21,18 +21,20 @@ public interface StudentService {
     /**
      * Find a student by its ID.
      * @param studentId String
+     * @param active desiredStatusCode
      * @return Student StudentDto
      * @throws StudentNotFoundException when no Student is found by ID
      */
-    StudentDto findStudentById(final String studentId) throws StudentNotFoundException;
+    StudentDto findStudentById(final String studentId, final Integer statusCode) throws StudentNotFoundException;
 
     /**
      * Find a student by its name.
      * @param studentName String
+     * @param active desiredStatusCode
      * @return Student StudentDto
      * @throws StudentNotFoundException when no Student is found by name
      */
-    StudentDto findStudentByName(final String studentName) throws StudentNotFoundException;
+    StudentDto findStudentByName(final String studentName, final Integer statusCode) throws StudentNotFoundException;
 
 
     /**
@@ -54,12 +56,13 @@ public interface StudentService {
     /**
      * Add a Subject to student's subjectList
      * @param studentId
+     * @param subjectId SubjectId
      * @param subjectDto
      */
-    void addSubjectToStudent(String studentId, SubjectDto subjectDto);
+    void addSubjectToStudent(final String studentId, final String subjectId, final SubjectDto subjectDto);
 
     /**
-     *
+     * Remove subject from student and vice versa.
      * @param studentId
      * @param subjectId
      */

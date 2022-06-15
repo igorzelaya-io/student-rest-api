@@ -27,9 +27,10 @@ public interface SubjectService {
     /**
      * Find a Subject by its ID.
      * @param subjectId
+     * @param statusCode
      * @throws SubjectNotFoundException
      */
-    SubjectDto findSubjectById(final String subjectId) throws SubjectNotFoundException;
+    SubjectDto findSubjectById(final String subjectId, final int statusCode) throws SubjectNotFoundException;
 
 
     /**
@@ -38,7 +39,7 @@ public interface SubjectService {
      * @return
      * @throws SubjectNotFoundException
      */
-    SubjectDto findSubjectByName(final String subjectName) throws SubjectNotFoundException;
+    SubjectDto findSubjectByName(final String subjectName, final int statusCode) throws SubjectNotFoundException;
 
     /**
      * Delete Subject, in reality it just modifies Subject Status Code.

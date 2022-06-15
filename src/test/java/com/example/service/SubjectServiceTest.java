@@ -88,7 +88,7 @@ public class SubjectServiceTest {
                 .when(subjectRepository)
                 .findById(SUBJECT_ID);
 
-        SubjectDto subjectDto = subjectService.findSubjectById(SUBJECT_ID);
+        SubjectDto subjectDto = subjectService.findSubjectById(SUBJECT_ID, ModelStatus.ACTIVE.getStatusCode());
 
         assertThat(subjectDto).isNotNull();
         assertThat(subjectDto.getSubjectId()).isEqualTo(subject.getSubjectId());
@@ -109,7 +109,7 @@ public class SubjectServiceTest {
                 .findById(SUBJECT_ID);
 
         try{
-            SubjectDto subjectDto = subjectService.findSubjectById(SUBJECT_ID);
+            SubjectDto subjectDto = subjectService.findSubjectById(SUBJECT_ID, ModelStatus.ACTIVE.getStatusCode());
             fail("Exception should be thrown");
         }
         catch(Exception e) {
@@ -144,7 +144,7 @@ public class SubjectServiceTest {
                 .thenReturn(Optional.empty());
 
         try{
-            SubjectDto subjectDto = subjectService.findSubjectByName(SUBJECT_NAME);
+            SubjectDto subjectDto = subjectService.findSubjectByName(SUBJECT_NAME, ModelStatus.ACTIVE.getStatusCode());
             fail("Should throw exception when optional is empty");
         }
         catch(Exception e){

@@ -11,6 +11,10 @@ import java.util.List;
  */
 public class SortingPagingUtils {
 
+    public static SortingPagingUtils create(){
+        return new SortingPagingUtils();
+    }
+
     /**
      * Return a List of Order to sort by.
      * @param sort String[] sort

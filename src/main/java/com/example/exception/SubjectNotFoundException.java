@@ -15,7 +15,7 @@ public class SubjectNotFoundException extends ResourceNotFoundException {
      * @param fieldValue
      * @return ResourceNotFoundException
      */
-    public static ResourceNotFoundException buildSubjectNotFoundExceptionForField
+    public static ResourceNotFoundException buildExceptionForField
             (String field, String fieldValue){
         return resourceNotFoundExceptionOf(Subject.class, field, fieldValue);
     }
@@ -26,7 +26,7 @@ public class SubjectNotFoundException extends ResourceNotFoundException {
      * @return ResourceNotFoundException
      */
     public static ResourceNotFoundException
-            buildSubjectNotFoundExceptionForId(String subjectId){
+            buildExceptionForId(String subjectId){
        return resourceNotFoundExceptionOf(Subject.class, "subjectId", subjectId);
     }
 

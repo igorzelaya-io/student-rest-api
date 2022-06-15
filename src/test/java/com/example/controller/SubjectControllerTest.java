@@ -2,6 +2,7 @@ package com.example.controller;
 
 import com.example.config.WebMvcConfiguration;
 import com.example.dto.SubjectDto;
+import com.example.model.status.ModelStatus;
 import com.example.service.SubjectService;
 import org.junit.Before;
 import org.junit.Test;
@@ -51,7 +52,7 @@ public class SubjectControllerTest extends AbstractTestController {
     @Test
     public void shouldGetSubjectById() throws Exception {
 
-        when(subjectService.findSubjectById(SUBJECT_ID))
+        when(subjectService.findSubjectById(SUBJECT_ID, ModelStatus.ACTIVE.getStatusCode()))
                 .thenReturn(subjectDto);
 
         doRequestGetSubjectById()
@@ -62,7 +63,7 @@ public class SubjectControllerTest extends AbstractTestController {
     public void shouldGetSubjectByName() throws Exception {
 
         when(subjectService
-                .findSubjectByName(SUBJECT_NAME))
+                .findSubjectByName(SUBJECT_NAME, ModelStatus.ACTIVE.getStatusCode()))
                 .thenReturn(subjectDto);
 
         doReqestGetSubjectByName()

@@ -102,8 +102,10 @@ public class SubjectController {
             , content = { @Content(schema = @Schema(implementation = ErrorResponse.class))})
     })
     @GetMapping(path = "/{subjectId}")
-    public ResponseEntity<? extends Response<SubjectDto>> findSubjectById(@PathVariable String subjectId) {
-        SubjectDto subjectDto = subjectService.findSubjectById(subjectId);
+    public ResponseEntity<? extends Response<SubjectDto>> findSubjectById(
+            @PathVariable final String subjectId,
+            @RequestParam(required = false, defaultValue = "0") final int statusCode) {
+        SubjectDto subjectDto = subjectService.findSubjectById(subjectId, statusCode);
         BaseResponse<SubjectDto> subjectDtoBaseResponse = new BaseResponse<>();
         return subjectDtoBaseResponse
                 .buildResponseEntity(HttpStatus.OK, "Subject found",  subjectDto);
@@ -124,9 +126,10 @@ public class SubjectController {
     })
     @GetMapping(params = "subjectName")
     public ResponseEntity<? extends Response<SubjectDto>> findSubjectByName(
-            @RequestParam("subjectName") final String subjectName){
+            @RequestParam("subjectName") final String subjectName,
+            @RequestParam(required = false, defaultValue = "0") final int statusCode){
 
-        SubjectDto subjectDto = subjectService.findSubjectByName(subjectName);
+        SubjectDto subjectDto = subjectService.findSubjectByName(subjectName, statusCode);
         BaseResponse<SubjectDto> subjectDtoBaseResponse = new BaseResponse<>();
         return subjectDtoBaseResponse
                 .buildResponseEntity(HttpStatus.OK, "Subject found.", subjectDto);
