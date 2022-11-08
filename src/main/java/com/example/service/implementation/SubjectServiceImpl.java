@@ -78,7 +78,7 @@ public class SubjectServiceImpl implements SubjectService {
 
     @Override
     public SubjectDto findSubjectByName(final String subjectName, final int statusCode) {
-        Subject subject = subjectRepository.findBySubjectNameContaining(subjectName, 0)
+        Subject subject = subjectRepository.findBySubjectNameContainingLike(subjectName, 0)
                 .orElseThrow(() -> SubjectNotFoundException
                         .buildExceptionForField("subjectName", subjectName));
         return subjectMapper

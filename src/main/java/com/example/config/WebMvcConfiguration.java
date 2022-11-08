@@ -18,7 +18,7 @@ public class WebMvcConfiguration {
 
     @Bean
     public SortingPagingUtils sortingPagingUtils(){
-        return SortingPagingUtils.create();
+        return new SortingPagingUtils();
     }
 
 }

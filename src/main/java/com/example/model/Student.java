@@ -40,7 +40,6 @@ public class Student {
 		joinColumns = @JoinColumn(name = "student_id"),
 		inverseJoinColumns = @JoinColumn(name = "subject_id")
 	)
-	@Builder.Default
 	private List<Subject> studentSubjects = new ArrayList<>();
 
 	@Column(name = "student_status", nullable = false)

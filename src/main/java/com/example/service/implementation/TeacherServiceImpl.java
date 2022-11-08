@@ -98,7 +98,7 @@ public class TeacherServiceImpl implements TeacherService {
 		if(subjectService.subjectExists(subjectDto.getSubjectName())) {
 			subject = subjectMapper
 					.dtoToSubject(subjectService
-							.findSubjectByName(subjectDto.getSubjectName()));
+							.findSubjectByName(subjectDto.getSubjectName(), ModelStatus.ACTIVE.getStatusCode()));
 		} else {
 			subject = Subject.buildFromDto(subjectMapper.dtoToSubject(subjectDto));
 		}
@@ -113,7 +113,7 @@ public class TeacherServiceImpl implements TeacherService {
 		Teacher teacher = teacherMapper
 				.dtoToTeacher(findTeacherById(teacherId));
 		Subject subject = subjectMapper
-				.dtoToSubject(subjectService.findSubjectById(subjectId));
+				.dtoToSubject(subjectService.findSubjectById(subjectId, ModelStatus.ACTIVE.getStatusCode()));
 
 		if(Objects.nonNull(subject.getTeacher()) && subject.getTeacher().getTeacherId().equals(teacher.getTeacherId())){
 			teacher.removeSubject(subject);

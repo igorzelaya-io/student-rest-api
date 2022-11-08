@@ -54,6 +54,8 @@ public class SubjectServiceTest {
 
     private static final String SUBJECT_NAME = "Math";
 
+    private final static int ACTIVE = ModelStatus.ACTIVE.getStatusCode();
+
     private String SUBJECT_NOT_FOUND;
 
     @Before
@@ -88,7 +90,7 @@ public class SubjectServiceTest {
                 .when(subjectRepository)
                 .findById(SUBJECT_ID);
 
-        SubjectDto subjectDto = subjectService.findSubjectById(SUBJECT_ID, ModelStatus.ACTIVE.getStatusCode());
+        SubjectDto subjectDto = subjectService.findSubjectById(SUBJECT_ID, ACTIVE);
 
         assertThat(subjectDto).isNotNull();
         assertThat(subjectDto.getSubjectId()).isEqualTo(subject.getSubjectId());
@@ -109,7 +111,7 @@ public class SubjectServiceTest {
                 .findById(SUBJECT_ID);
 
         try{
-            SubjectDto subjectDto = subjectService.findSubjectById(SUBJECT_ID, ModelStatus.ACTIVE.getStatusCode());
+            SubjectDto subjectDto = subjectService.findSubjectById(SUBJECT_ID, ACTIVE);
             fail("Exception should be thrown");
         }
         catch(Exception e) {
@@ -120,10 +122,10 @@ public class SubjectServiceTest {
 
     @Test
     public void shouldReturnSubjectByName(){
-        when(subjectRepository.findBySubjectNameContainingIgnoreCase(SUBJECT_NAME))
+        when(subjectRepository.findBySubjectNameContainingLike(SUBJECT_NAME, ACTIVE))
                 .thenReturn(Optional.of(subject));
 
-        SubjectDto subjectDto = subjectService.findSubjectByName(SUBJECT_NAME);
+        SubjectDto subjectDto = subjectService.findSubjectByName(SUBJECT_NAME, ModelStatus.ACTIVE.getStatusCode());
 
         assertThat(subjectDto).isNotNull();
 
@@ -140,7 +142,7 @@ public class SubjectServiceTest {
                 .append(params).toString();
 
         when(subjectRepository
-                .findBySubjectNameContainingIgnoreCase(SUBJECT_NAME))
+                .findBySubjectNameContainingLike(SUBJECT_NAME, ACTIVE))
                 .thenReturn(Optional.empty());
 
         try{

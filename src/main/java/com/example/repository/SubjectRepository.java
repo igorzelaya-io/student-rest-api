@@ -34,7 +34,7 @@ public interface SubjectRepository extends JpaRepository<Subject, String> {
      * @return Optional Subject
      */
     @Query("FROM Subject s WHERE s.subjectStatus = :statusCode AND LOWER(s.subjectName) LIKE LOWER(CONCAT('%', :subjectName,'%') )")
-    Optional<Subject> findBySubjectNameContaining(@Param("subjectName") final String subjectName,
+    Optional<Subject> findBySubjectNameContainingLike(@Param("subjectName") final String subjectName,
                                                   @Param("statusCode") final int statusCode);
 
     /**

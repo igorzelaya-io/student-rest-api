@@ -9,11 +9,8 @@ import java.util.List;
  * Utils for Paging and Sorting.
  * @author Igor A. Zelaya
  */
+@Component
 public class SortingPagingUtils {
-
-    public static SortingPagingUtils create(){
-        return new SortingPagingUtils();
-    }
 
     /**
      * Return a List of Order to sort by.
@@ -23,11 +20,13 @@ public class SortingPagingUtils {
     public List<Sort.Order> getSortOrders(String[] sort){
         List<Sort.Order> sortingOrders = new ArrayList<>();
         //Evaluate if we should sort by more than one field.
-        if(sort[0].contains(",")){
+        if(sort.length > 1){
             //sortOrder = "field, direction"
             for(String sortOrder: sort){
                 String[] _sort = sortOrder.split(",");
-                sortingOrders.add(new Sort.Order(getSortDirection(_sort[1].trim()), _sort[0].trim()));
+                String field = _sort[0];
+                Sort.Direction direction = getSortDirection(sort[1]);
+                sortingOrders.add(new Sort.Order(direction, field));
             }
         }
         else{

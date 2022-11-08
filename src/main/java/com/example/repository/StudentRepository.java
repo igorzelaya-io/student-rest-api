@@ -24,7 +24,9 @@ public interface StudentRepository extends JpaRepository<Student, String>{
 	 * @param statusCode statusCode
 	 * @return
 	 */
-	@Query("FROM Student s WHERE s.statusCode = :status AND s.studentId = :studentId")
+	@Query("SELECT s FROM Student s " +
+			"WHERE s.studentStatus = 0 " +
+			"AND s.studentId = :studentId")
 	Optional<Student> findByIdAndStatus(@Param("studentId") final String studentId,
 										@Param("status") final int statusCode);
 
@@ -34,7 +36,7 @@ public interface StudentRepository extends JpaRepository<Student, String>{
 	 * @param statusCode ACTIVE(0) INACTIVE(1)
 	 * @return Optional Student
 	 */
-	@Query("FROM Student s WHERE s.statusCode = :status AND s.studentName LIKE %:studentName%")
+	@Query("SELECT s FROM Student s WHERE s.studentStatus = 0 AND s.studentName LIKE %:studentName%")
 	Optional<Student> findByNameAndStatusContaining(@Param("studentName") final String studentName,
 										  @Param("status") final int statusCode);
 
