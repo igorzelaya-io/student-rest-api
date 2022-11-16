@@ -7,8 +7,8 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public enum ModelStatus {
 
-    ACTIVE(0),
-    INACTIVE(1);
+    ACTIVE(1),
+    INACTIVE(0);
 
     private final int statusCode;
 

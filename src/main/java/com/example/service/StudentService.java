@@ -2,7 +2,7 @@ package com.example.service;
 
 import com.example.dto.StudentDto;
 import com.example.dto.SubjectDto;
-import com.example.exception.StudentNotFoundException;
+import com.example.exception.ResourceNotFoundException;
 import org.springframework.data.domain.Page;
 
 /**
@@ -21,20 +21,16 @@ public interface StudentService {
     /**
      * Find a student by its ID.
      * @param studentId String
-     * @param active desiredStatusCode
      * @return Student StudentDto
-     * @throws StudentNotFoundException when no Student is found by ID
      */
-    StudentDto findStudentById(final String studentId, final Integer statusCode) throws StudentNotFoundException;
+    StudentDto findStudentById(final String studentId);
 
     /**
      * Find a student by its name.
      * @param studentName String
-     * @param active desiredStatusCode
      * @return Student StudentDto
-     * @throws StudentNotFoundException when no Student is found by name
      */
-    StudentDto findStudentByName(final String studentName, final Integer statusCode) throws StudentNotFoundException;
+    StudentDto findStudentByName(final String studentName);
 
 
     /**

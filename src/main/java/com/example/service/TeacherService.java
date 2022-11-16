@@ -2,7 +2,6 @@ package com.example.service;
 
 import com.example.dto.SubjectDto;
 import com.example.dto.TeacherDto;
-import com.example.exception.TeacherNotFoundException;
 import org.springframework.data.domain.Page;
 
 /**

@@ -1,11 +1,9 @@
 package com.example.service;
 
 import com.example.config.WebMvcConfiguration;
-import com.example.dto.StudentDto;
 import com.example.dto.SubjectDto;
 import com.example.dto.TeacherDto;
 import com.example.exception.ResourceNotFoundException;
-import com.example.exception.TeacherNotFoundException;
 import com.example.model.Subject;
 import com.example.model.Teacher;
 import com.example.model.mapper.SubjectMapper;

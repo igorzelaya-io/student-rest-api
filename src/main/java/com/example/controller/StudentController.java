@@ -100,10 +100,9 @@ public class StudentController {
 	})
 	@GetMapping(value = "/{studentId}")
 	public ResponseEntity<? extends StudentDto> findByStudentId(
-			@PathVariable final String studentId,
-			@RequestParam(required = false, defaultValue = "0")Integer statusCode) {
+			@PathVariable final String studentId) {
 
-		StudentDto retrievedStudent = studentService.findStudentById(studentId, statusCode);
+		StudentDto retrievedStudent = studentService.findStudentById(studentId);
 		return new ResponseEntity<>(retrievedStudent, HttpStatus.OK);
 	}
 
@@ -122,10 +121,9 @@ public class StudentController {
 	})
 	@GetMapping(params = "studentName")
 	public ResponseEntity<? extends StudentDto> findStudentByName(
-			@RequestParam("studentName") final String studentName,
-		    @RequestParam(required = false, defaultValue = "0") final Integer statusCode){
+			@RequestParam("studentName") final String studentName){
 
-		StudentDto retrievedStudent = studentService.findStudentByName(studentName, statusCode);
+		StudentDto retrievedStudent = studentService.findStudentByName(studentName);
 		return new ResponseEntity<>(retrievedStudent, HttpStatus.OK);
 	}
 

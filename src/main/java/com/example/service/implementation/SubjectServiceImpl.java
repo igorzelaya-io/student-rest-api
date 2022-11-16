@@ -1,6 +1,5 @@
 package com.example.service.implementation;
 import com.example.dto.SubjectDto;
-import com.example.exception.SubjectNotFoundException;
 import com.example.model.Subject;
 import com.example.model.mapper.SubjectMapper;
 import com.example.model.status.ModelStatus;

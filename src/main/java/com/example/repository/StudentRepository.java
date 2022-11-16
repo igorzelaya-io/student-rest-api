@@ -16,29 +16,27 @@ import org.springframework.stereotype.Repository;
  * @version 1.0.0
  */
 @Repository
-public interface StudentRepository extends JpaRepository<Student, String>{
+public interface StudentRepository extends JpaRepository<Student, String> {
 
 	/**
 	 * Find Student by its name and given status.
 	 * @param studentId StudentId
-	 * @param statusCode statusCode
 	 * @return
 	 */
 	@Query("SELECT s FROM Student s " +
-			"WHERE s.studentStatus = 0 " +
-			"AND s.studentId = :studentId")
-	Optional<Student> findByIdAndStatus(@Param("studentId") final String studentId,
-										@Param("status") final int statusCode);
+			"WHERE s.studentId = :studentId " +
+			"AND s.studentStatus = 1")
+	Optional<Student> findActiveStudentById(@Param("studentId") final String studentId);
 
 	/**
 	 * Find Student by its name and given status.
 	 * @param studentName String
-	 * @param statusCode ACTIVE(0) INACTIVE(1)
 	 * @return Optional Student
 	 */
-	@Query("SELECT s FROM Student s WHERE s.studentStatus = 0 AND s.studentName LIKE %:studentName%")
-	Optional<Student> findByNameAndStatusContaining(@Param("studentName") final String studentName,
-										  @Param("status") final int statusCode);
+	@Query("SELECT s FROM Student s " +
+			"WHERE s.studentStatus = 1 " +
+			"AND s.studentName LIKE %:studentName%")
+	Optional<Student> findByNameAndStatusContaining(@Param("studentName") final String studentName);
 
 	/**
 	 * Find Paginated students by name.

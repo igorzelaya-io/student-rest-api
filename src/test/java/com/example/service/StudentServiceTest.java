@@ -95,10 +95,10 @@ public class StudentServiceTest {
     @Test
     public void shouldReturnStudentById() {
         when(studentRepository
-                .findByNameAndStatusContaining(STUDENT_ID, 0))
+                .findByNameAndStatusContaining(STUDENT_ID))
                 .thenReturn(Optional.of(student));
 
-        StudentDto studentDto = studentService.findStudentById(STUDENT_ID, 0);
+        StudentDto studentDto = studentService.findStudentById(STUDENT_ID);
 
         Assertions.assertThat(studentDto).isNotNull();
         Assertions.assertThat(studentDto.getStudentId()).isEqualTo(STUDENT_ID);
@@ -118,7 +118,7 @@ public class StudentServiceTest {
         when(studentRepository.findById(STUDENT_ID))
                 .thenReturn(Optional.empty());
         try {
-            StudentDto studentDto = studentService.findStudentById(STUDENT_ID, 0);
+            StudentDto studentDto = studentService.findStudentById(STUDENT_ID);
             fail("Exception must be thrown");
         } catch (Exception ex) {
             assertThat(ex).isInstanceOf(ResourceNotFoundException.class);
@@ -129,10 +129,10 @@ public class StudentServiceTest {
     @Test
     public void shouldReturnStudentByName() {
         when(studentRepository
-                .findByNameAndStatusContaining(STUDENT_NAME, 0))
+                .findByNameAndStatusContaining(STUDENT_NAME))
                 .thenReturn(Optional.of(student));
 
-        StudentDto studentDto = studentService.findStudentByName(STUDENT_NAME, 0);
+        StudentDto studentDto = studentService.findStudentByName(STUDENT_NAME);
         Assertions.assertThat(studentDto).isNotNull();
         Assertions.assertThat(studentDto.getStudentId()).isEqualTo(STUDENT_ID);
         Assertions.assertThat(studentDto.getStudentName()).isEqualTo(student.getStudentName());
@@ -148,11 +148,11 @@ public class StudentServiceTest {
                 .append(" ")
                 .append(params).toString();
 
-        when(studentRepository.findByNameAndStatusContaining(STUDENT_NAME, 0))
+        when(studentRepository.findByNameAndStatusContaining(STUDENT_NAME))
                 .thenReturn(Optional.empty());
 
         try {
-            StudentDto studentDto = studentService.findStudentByName(STUDENT_NAME, 0);
+            StudentDto studentDto = studentService.findStudentByName(STUDENT_NAME);
             fail("Should throw exception.");
         } catch (Exception e) {
             assertThat(e).isInstanceOf(ResourceNotFoundException.class);

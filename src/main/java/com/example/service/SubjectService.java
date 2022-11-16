@@ -1,12 +1,8 @@
 package com.example.service;
 
 import com.example.dto.SubjectDto;
-import com.example.exception.SubjectNotFoundException;
-import com.example.model.Student;
 import com.example.model.Subject;
-import com.example.model.mapper.StudentMapper;
 import com.example.model.mapper.SubjectMapper;
-import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 import org.springframework.data.domain.Page;
 

@@ -2,7 +2,6 @@ package com.example.service.implementation;
 
 import com.example.dto.SubjectDto;
 import com.example.dto.TeacherDto;
-import com.example.exception.TeacherNotFoundException;
 import com.example.model.Subject;
 import com.example.model.Teacher;
 import com.example.model.mapper.SubjectMapper;
@@ -135,8 +134,8 @@ public class TeacherServiceImpl implements TeacherService {
 
 	/**
 	 * Evaluate if Teacher status is ACTIVE.
-	 * @param teacher String
 	 * @param queryField String
+	 * @param teacher String
 	 * @param queryFieldValue String
 	 * @return Teacher
 	 */

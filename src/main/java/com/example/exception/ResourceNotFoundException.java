@@ -17,13 +17,13 @@ public class ResourceNotFoundException extends RuntimeException{
 		super();
 	}
 
-	private ResourceNotFoundException(Class entityClass, String... searchParamsMap){
+	public ResourceNotFoundException(Class entityClass, String... searchParamsMap){
 		super(ResourceNotFoundException.generateExceptionMessage(entityClass.getSimpleName(),
 				toMap(String.class, String.class, searchParamsMap)));
 	}
 
 	private static String generateExceptionMessage(String entity, Map<String, String> searchParams){
-		return new StringBuilder(StringUtils.capitalize(entity))
+		return new StringBuilder(entity)
 				.append(" was not found for parameters ")
 				.append(searchParams)
 				.toString();
@@ -37,10 +37,6 @@ public class ResourceNotFoundException extends RuntimeException{
 				.map(i -> i * 2)
 				.collect(HashMap::new,
 				(m, i) -> m.put(keyType.cast(entries[i]), valueType.cast(entries[i + 1])), Map::putAll);
-	}
-
-	protected static ResourceNotFoundException resourceNotFoundExceptionOf(Class thrownClass, String... searchParams){
-		return new ResourceNotFoundException(thrownClass, searchParams);
 	}
 
 }

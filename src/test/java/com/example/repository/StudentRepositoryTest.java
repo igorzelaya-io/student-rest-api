@@ -37,7 +37,7 @@ public class StudentRepositoryTest {
     public void shouldFetchStudentByName(){
         initRecords();
         Optional<Student> retrievedStudent = studentRepository
-                .findByNameAndStatusContaining(STUDENT_NAME, 0);
+                .findByNameAndStatusContaining(STUDENT_NAME);
         Assertions.assertTrue(retrievedStudent.isPresent());
         Assertions.assertEquals(retrievedStudent.get(), student);
     }
