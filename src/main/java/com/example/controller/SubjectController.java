@@ -1,14 +1,10 @@
 package com.example.controller;
 
-
-import com.example.dto.StudentDto;
 import com.example.dto.SubjectDto;
 import com.example.dto.openapi.PageResponseSubjectDto;
-import com.example.dto.openapi.ResponseStudentDto;
 import com.example.dto.openapi.ResponseSubjectDto;
 import com.example.dto.pageable.PageResponse;
 import com.example.dto.pageable.PageResponseDto;
-import com.example.model.Subject;
 import com.example.response.BaseResponse;
 import com.example.response.Response;
 import com.example.response.error.ErrorResponse;
@@ -19,7 +15,6 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -103,9 +98,8 @@ public class SubjectController {
     })
     @GetMapping(path = "/{subjectId}")
     public ResponseEntity<? extends Response<SubjectDto>> findSubjectById(
-            @PathVariable final String subjectId,
-            @RequestParam(required = false, defaultValue = "0") final int statusCode) {
-        SubjectDto subjectDto = subjectService.findSubjectById(subjectId, statusCode);
+            @PathVariable final String subjectId) {
+        SubjectDto subjectDto = subjectService.findSubjectById(subjectId);
         BaseResponse<SubjectDto> subjectDtoBaseResponse = new BaseResponse<>();
         return subjectDtoBaseResponse
                 .buildResponseEntity(HttpStatus.OK, "Subject found",  subjectDto);
@@ -126,10 +120,9 @@ public class SubjectController {
     })
     @GetMapping(params = "subjectName")
     public ResponseEntity<? extends Response<SubjectDto>> findSubjectByName(
-            @RequestParam("subjectName") final String subjectName,
-            @RequestParam(required = false, defaultValue = "0") final int statusCode){
+            @RequestParam("subjectName") final String subjectName){
 
-        SubjectDto subjectDto = subjectService.findSubjectByName(subjectName, statusCode);
+        SubjectDto subjectDto = subjectService.findSubjectByName(subjectName);
         BaseResponse<SubjectDto> subjectDtoBaseResponse = new BaseResponse<>();
         return subjectDtoBaseResponse
                 .buildResponseEntity(HttpStatus.OK, "Subject found.", subjectDto);

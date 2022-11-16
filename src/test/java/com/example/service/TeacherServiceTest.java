@@ -87,7 +87,7 @@ public class TeacherServiceTest {
 
         subjectMapper = Mappers.getMapper(SubjectMapper.class);
 
-        subjectService = new SubjectServiceImpl(subjectMapper, subjectRepository, sortingPagingUtils);
+        subjectService = new SubjectServiceImpl(subjectRepository, sortingPagingUtils);
 
         teacherService = new TeacherServiceImpl(teacherRepository, teacherMapper,
                 subjectService, subjectMapper, sortingPagingUtils, messages);

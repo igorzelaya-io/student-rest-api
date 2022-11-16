@@ -62,7 +62,7 @@ public class SubjectServiceTest {
     public void init(){
         subjectRepository = Mockito.mock(SubjectRepository.class);
         subjectMapper = Mappers.getMapper(SubjectMapper.class);
-        subjectService = new SubjectServiceImpl(subjectMapper, subjectRepository, sortingPagingUtils);
+        subjectService = new SubjectServiceImpl(subjectRepository, sortingPagingUtils);
 
         subjectDto = SubjectDto
                 .builder()
@@ -90,7 +90,7 @@ public class SubjectServiceTest {
                 .when(subjectRepository)
                 .findById(SUBJECT_ID);
 
-        SubjectDto subjectDto = subjectService.findSubjectById(SUBJECT_ID, ACTIVE);
+        SubjectDto subjectDto = subjectService.findSubjectById(SUBJECT_ID);
 
         assertThat(subjectDto).isNotNull();
         assertThat(subjectDto.getSubjectId()).isEqualTo(subject.getSubjectId());
@@ -111,7 +111,7 @@ public class SubjectServiceTest {
                 .findById(SUBJECT_ID);
 
         try{
-            SubjectDto subjectDto = subjectService.findSubjectById(SUBJECT_ID, ACTIVE);
+            SubjectDto subjectDto = subjectService.findSubjectById(SUBJECT_ID);
             fail("Exception should be thrown");
         }
         catch(Exception e) {
@@ -122,10 +122,10 @@ public class SubjectServiceTest {
 
     @Test
     public void shouldReturnSubjectByName(){
-        when(subjectRepository.findBySubjectNameContainingLike(SUBJECT_NAME, ACTIVE))
+        when(subjectRepository.findBySubjectNameContainingLike(SUBJECT_NAME))
                 .thenReturn(Optional.of(subject));
 
-        SubjectDto subjectDto = subjectService.findSubjectByName(SUBJECT_NAME, ModelStatus.ACTIVE.getStatusCode());
+        SubjectDto subjectDto = subjectService.findSubjectByName(SUBJECT_NAME);
 
         assertThat(subjectDto).isNotNull();
 
@@ -142,11 +142,11 @@ public class SubjectServiceTest {
                 .append(params).toString();
 
         when(subjectRepository
-                .findBySubjectNameContainingLike(SUBJECT_NAME, ACTIVE))
+                .findBySubjectNameContainingLike(SUBJECT_NAME))
                 .thenReturn(Optional.empty());
 
         try{
-            SubjectDto subjectDto = subjectService.findSubjectByName(SUBJECT_NAME, ModelStatus.ACTIVE.getStatusCode());
+            SubjectDto subjectDto = subjectService.findSubjectByName(SUBJECT_NAME);
             fail("Should throw exception when optional is empty");
         }
         catch(Exception e){

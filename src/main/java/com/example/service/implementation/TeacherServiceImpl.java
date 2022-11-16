@@ -2,6 +2,7 @@ package com.example.service.implementation;
 
 import com.example.dto.SubjectDto;
 import com.example.dto.TeacherDto;
+import com.example.exception.ResourceNotFoundException;
 import com.example.model.Subject;
 import com.example.model.Teacher;
 import com.example.model.mapper.SubjectMapper;
@@ -70,23 +71,15 @@ public class TeacherServiceImpl implements TeacherService {
 	@Override
 	public TeacherDto findTeacherById(final String teacherId) {
 		Teacher teacher = teacherRepository.findById(teacherId)
-				.orElseThrow(() -> TeacherNotFoundException
-						.buildTeacherNotFoundExceptionForId(teacherId));
-		return teacherMapper
-				.toTeacherDto(
-						isActiveTeacher(teacher, "teacherId", teacherId)
-				);
+				.orElseThrow(() -> new ResourceNotFoundException(Teacher.class, "TeacherId", teacherId));
+		return teacherMapper.toTeacherDto(teacher);
 	}
 
 	@Override
 	public TeacherDto findTeacherByName(final String teacherName) {
 		Teacher teacher = teacherRepository.findByTeacherName(teacherName)
-				.orElseThrow(() -> TeacherNotFoundException
-						.buildTeacherNotFoundExceptionForField("teacherName", teacherName));
-		return teacherMapper
-				.toTeacherDto(
-					isActiveTeacher(teacher, "teacherName", teacherName)
-				);
+				.orElseThrow(() -> new ResourceNotFoundException(Teacher.class, "TeacherName", teacherName));
+		return teacherMapper.toTeacherDto(teacher);
 	}
 
 	@Override
@@ -97,7 +90,7 @@ public class TeacherServiceImpl implements TeacherService {
 		if(subjectService.subjectExists(subjectDto.getSubjectName())) {
 			subject = subjectMapper
 					.dtoToSubject(subjectService
-							.findSubjectByName(subjectDto.getSubjectName(), ModelStatus.ACTIVE.getStatusCode()));
+							.findSubjectByName(subjectDto.getSubjectName()));
 		} else {
 			subject = Subject.buildFromDto(subjectMapper.dtoToSubject(subjectDto));
 		}
@@ -112,7 +105,7 @@ public class TeacherServiceImpl implements TeacherService {
 		Teacher teacher = teacherMapper
 				.dtoToTeacher(findTeacherById(teacherId));
 		Subject subject = subjectMapper
-				.dtoToSubject(subjectService.findSubjectById(subjectId, ModelStatus.ACTIVE.getStatusCode()));
+				.dtoToSubject(subjectService.findSubjectById(subjectId));
 
 		if(Objects.nonNull(subject.getTeacher()) && subject.getTeacher().getTeacherId().equals(teacher.getTeacherId())){
 			teacher.removeSubject(subject);
@@ -132,18 +125,4 @@ public class TeacherServiceImpl implements TeacherService {
 		teacherRepository.save(teacher);
 	}
 
-	/**
-	 * Evaluate if Teacher status is ACTIVE.
-	 * @param queryField String
-	 * @param teacher String
-	 * @param queryFieldValue String
-	 * @return Teacher
-	 */
-	private Teacher isActiveTeacher(final Teacher teacher, final String queryField, final String queryFieldValue){
-		if(teacher.getTeacherStatus().getStatusCode() == 0){
-			return teacher;
-		}
-		throw TeacherNotFoundException
-				.buildTeacherNotFoundExceptionForField(queryField, queryFieldValue);
-	}
 }

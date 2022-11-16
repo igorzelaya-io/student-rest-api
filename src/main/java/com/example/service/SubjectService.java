@@ -23,19 +23,16 @@ public interface SubjectService {
     /**
      * Find a Subject by its ID.
      * @param subjectId
-     * @param statusCode
-     * @throws SubjectNotFoundException
      */
-    SubjectDto findSubjectById(final String subjectId, final int statusCode) throws SubjectNotFoundException;
+    SubjectDto findSubjectById(final String subjectId);
 
 
     /**
      * Find Subject by name.
      * @param subjectName
      * @return
-     * @throws SubjectNotFoundException
      */
-    SubjectDto findSubjectByName(final String subjectName, final int statusCode) throws SubjectNotFoundException;
+    SubjectDto findSubjectByName(final String subjectName);
 
     /**
      * Delete Subject, in reality it just modifies Subject Status Code.

@@ -21,21 +21,19 @@ public interface SubjectRepository extends JpaRepository<Subject, String> {
     /**
      * Find student by status and ID.
      * @param subjectId SubjectId
-     * @param statusCode statusCode
      * @return Optional Subject
      */
-    @Query("FROM Subject s WHERE s.subjectStatus = :status AND s.subjectId = :subjectId")
-    Optional<Subject> findByIdAndStatus(@Param("subjectId") final String subjectId,
-                                        @Param("status") final int statusCode);
+    @Query("SELECT s FROM Subject s WHERE s.subjectStatus = 1 AND s.subjectId = :subjectId")
+    Optional<Subject> findActiveSubjectById(@Param("subjectId") final String subjectId);
 
     /**
      * Find Subject by its name.
      * @param subjectName String
      * @return Optional Subject
      */
-    @Query("FROM Subject s WHERE s.subjectStatus = :statusCode AND LOWER(s.subjectName) LIKE LOWER(CONCAT('%', :subjectName,'%') )")
-    Optional<Subject> findBySubjectNameContainingLike(@Param("subjectName") final String subjectName,
-                                                  @Param("statusCode") final int statusCode);
+    @Query("FROM Subject s WHERE s.subjectStatus = 1 " +
+            "AND LOWER(s.subjectName) LIKE LOWER(CONCAT('%', :subjectName,'%') )")
+    Optional<Subject> findBySubjectNameContainingLike(@Param("subjectName") final String subjectName);
 
     /**
      * Find Paginated subjects by name.

@@ -21,17 +21,15 @@ public interface TeacherService {
      * Find a Teacher by its ID.
      * @param teacherId
      * @return TeacherDto
-     * @throws TeacherNotFoundException
      */
-    TeacherDto findTeacherById(final String teacherId) throws TeacherNotFoundException;
+    TeacherDto findTeacherById(final String teacherId);
 
     /**
      * Find Teacher by its name.
      * @param teacherName
      * @return TeacherDto
-     * @throws TeacherNotFoundException
      */
-    TeacherDto findTeacherByName(final String teacherName) throws TeacherNotFoundException;
+    TeacherDto findTeacherByName(final String teacherName);
 
 
     /**

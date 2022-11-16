@@ -52,7 +52,7 @@ public class SubjectControllerTest extends AbstractTestController {
     @Test
     public void shouldGetSubjectById() throws Exception {
 
-        when(subjectService.findSubjectById(SUBJECT_ID, ModelStatus.ACTIVE.getStatusCode()))
+        when(subjectService.findSubjectById(SUBJECT_ID))
                 .thenReturn(subjectDto);
 
         doRequestGetSubjectById()
@@ -63,7 +63,7 @@ public class SubjectControllerTest extends AbstractTestController {
     public void shouldGetSubjectByName() throws Exception {
 
         when(subjectService
-                .findSubjectByName(SUBJECT_NAME, ModelStatus.ACTIVE.getStatusCode()))
+                .findSubjectByName(SUBJECT_NAME))
                 .thenReturn(subjectDto);
 
         doReqestGetSubjectByName()

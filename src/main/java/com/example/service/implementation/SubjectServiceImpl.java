@@ -1,5 +1,6 @@
 package com.example.service.implementation;
 import com.example.dto.SubjectDto;
+import com.example.exception.ResourceNotFoundException;
 import com.example.model.Subject;
 import com.example.model.mapper.SubjectMapper;
 import com.example.model.status.ModelStatus;
@@ -19,7 +20,6 @@ import java.util.Objects;
  * @version 1.0.0
  */
 @Service
-@RequiredArgsConstructor
 public class SubjectServiceImpl implements SubjectService {
 
     private final SubjectMapper subjectMapper;
@@ -67,19 +67,16 @@ public class SubjectServiceImpl implements SubjectService {
     }
 
     @Override
-    public SubjectDto findSubjectById(final String subjectId, final int statusCode){
-        Subject subject = subjectRepository.findByIdAndStatus(subjectId, statusCode)
-                .orElseThrow(() -> SubjectNotFoundException
-                        .buildExceptionForId(subjectId));
-        return subjectMapper
-                .toSubjectDto(subject);
+    public SubjectDto findSubjectById(final String subjectId){
+        Subject subject = subjectRepository.findActiveSubjectById(subjectId)
+                .orElseThrow(() -> new ResourceNotFoundException(Subject.class, "SubjectId", subjectId));
+        return subjectMapper.toSubjectDto(subject);
     }
 
     @Override
-    public SubjectDto findSubjectByName(final String subjectName, final int statusCode) {
-        Subject subject = subjectRepository.findBySubjectNameContainingLike(subjectName, 0)
-                .orElseThrow(() -> SubjectNotFoundException
-                        .buildExceptionForField("subjectName", subjectName));
+    public SubjectDto findSubjectByName(final String subjectName) {
+        Subject subject = subjectRepository.findBySubjectNameContainingLike(subjectName)
+                .orElseThrow(() -> new ResourceNotFoundException(Subject.class, "SubjectId", subjectName));
         return subjectMapper
                 .toSubjectDto(subject);
     }
@@ -87,8 +84,7 @@ public class SubjectServiceImpl implements SubjectService {
     @Override
     public void deleteSubjectById(final String subjectId){
         Subject subject = subjectMapper
-                .dtoToSubject(findSubjectById(
-                        subjectId, ModelStatus.ACTIVE.getStatusCode()));
+                .dtoToSubject(findSubjectById(subjectId));
         subject.setSubjectStatus(ModelStatus.INACTIVE);
         subjectRepository.save(subject);
     }
