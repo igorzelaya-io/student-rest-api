@@ -1,1 +1,0 @@
-{"student-rest-api":{"name":"student-rest-api","packages":{"com.example.service.implementation":{"packageName":"com.example.service.implementation","isAll":false,"classes":["Lcom.example.service.implementation.TeacherServiceImpl","Lcom.example.service.implementation.StudentServiceImpl","Lcom.example.service.implementation.SubjectServiceImpl"]}}}}

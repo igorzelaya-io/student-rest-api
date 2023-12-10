@@ -1,1 +1,0 @@
-{"student-rest-api":{"name":"student-rest-api","packages":{"com.example.controller":{"packageName":"com.example.controller","isAll":false,"classes":["Lcom.example.controller.TeacherController","Lcom.example.controller.SubjectController","Lcom.example.controller.StudentController"]}}}}
