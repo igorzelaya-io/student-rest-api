@@ -26,12 +26,9 @@ hs_err_pid*
 .settings
 .vscode
 .idea
-.mvn/**
 .classpath
 .project
 .springBeans
-mvnw
-mvnw.cmd
 **/.DS_Store
 target/**
 
